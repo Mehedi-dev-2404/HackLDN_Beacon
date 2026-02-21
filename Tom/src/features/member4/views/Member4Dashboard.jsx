@@ -41,6 +41,129 @@ export default function Member4Dashboard() {
               onChange={(event) => vm.setInjectedCareerJson(event.target.value)}
             />
           </div>
+
+          <div style={{ marginTop: 12 }}>
+            <label htmlFor="moduleWeightsJson">Module Weighting JSON (%)</label>
+            <textarea
+              id="moduleWeightsJson"
+              placeholder='{"Business Essay": 40, "Math": 20}'
+              value={vm.moduleWeightsJson}
+              onChange={(event) => vm.setModuleWeightsJson(event.target.value)}
+            />
+          </div>
+
+          <h3 style={{ marginTop: 16 }}>LLM Tuning</h3>
+          <p className="small">
+            Gemini-only tuning. Adjust these to change priority behavior without changing code.
+          </p>
+
+          <div className="row" style={{ marginTop: 8 }}>
+            <div>
+              <label>LLM Provider</label>
+              <input type="text" value="Google Gemini" disabled />
+            </div>
+            <div>
+              <label htmlFor="llmTemperature">Temperature</label>
+              <input
+                id="llmTemperature"
+                type="number"
+                min="0"
+                max="1"
+                step="0.05"
+                value={vm.llmTemperature}
+                onChange={(event) => vm.setLlmTemperature(event.target.value)}
+              />
+            </div>
+          </div>
+
+          <div style={{ marginTop: 8 }}>
+            <label htmlFor="llmModel">Model</label>
+            <input
+              id="llmModel"
+              type="text"
+              placeholder="gemini-1.5-pro"
+              value={vm.llmModel}
+              onChange={(event) => vm.setLlmModel(event.target.value)}
+            />
+          </div>
+
+          <div style={{ marginTop: 8 }}>
+            <label htmlFor="llmApiKey">Gemini API Key (optional, direct mode only)</label>
+            <input
+              id="llmApiKey"
+              type="password"
+              placeholder="Gemini API key"
+              value={vm.llmApiKey}
+              onChange={(event) => vm.setLlmApiKey(event.target.value)}
+            />
+          </div>
+
+          <div style={{ marginTop: 8, display: "flex", gap: 8, alignItems: "center" }}>
+            <input
+              id="allowDirectApi"
+              type="checkbox"
+              checked={vm.allowDirectApi}
+              onChange={(event) => vm.setAllowDirectApi(event.target.checked)}
+              style={{ width: "auto" }}
+            />
+            <label htmlFor="allowDirectApi" style={{ margin: 0 }}>
+              Allow direct Gemini API calls from browser
+            </label>
+          </div>
+
+          <div className="small" style={{ marginTop: 4 }}>
+            Use backend proxy in production. Browser direct mode exposes your key to client-side code.
+          </div>
+
+          <div style={{ marginTop: 8 }}>
+            <label htmlFor="llmPrompt">Custom Priority Prompt</label>
+            <textarea
+              id="llmPrompt"
+              placeholder="Describe exactly how priority should be ranked..."
+              value={vm.llmCustomPrompt}
+              onChange={(event) => vm.setLlmCustomPrompt(event.target.value)}
+            />
+          </div>
+
+          <div className="row" style={{ marginTop: 8 }}>
+            <div>
+              <label htmlFor="deadlineWeight">Deadline Weight</label>
+              <input
+                id="deadlineWeight"
+                type="number"
+                min="0"
+                max="1"
+                step="0.05"
+                value={vm.deadlineWeight}
+                onChange={(event) => vm.setDeadlineWeight(event.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="moduleWeight">Module Weight</label>
+              <input
+                id="moduleWeight"
+                type="number"
+                min="0"
+                max="1"
+                step="0.05"
+                value={vm.moduleWeight}
+                onChange={(event) => vm.setModuleWeight(event.target.value)}
+              />
+            </div>
+          </div>
+
+          <div style={{ marginTop: 8 }}>
+            <label htmlFor="effortWeight">Effort Weight</label>
+            <input
+              id="effortWeight"
+              type="number"
+              min="0"
+              max="1"
+              step="0.05"
+              value={vm.effortWeight}
+              onChange={(event) => vm.setEffortWeight(event.target.value)}
+            />
+          </div>
         </section>
 
         <section className="panel">
@@ -73,9 +196,7 @@ export default function Member4Dashboard() {
           <h3>Live Data Snapshot</h3>
           <p className="small">Last outputs from each run step.</p>
           <div className="log-box">
-            <pre className="log-line">
-{JSON.stringify(vm.dataStore, null, 2)}
-            </pre>
+            <pre className="log-line">{JSON.stringify(vm.dataStore, null, 2)}</pre>
           </div>
         </section>
 

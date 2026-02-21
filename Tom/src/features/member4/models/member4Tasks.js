@@ -18,6 +18,12 @@ export const MEMBER4_TASKS = [
       "Normalise scraped data and map it into backend task schema."
   },
   {
+    id: "llmPriority",
+    title: "LLM Priority Rating",
+    description:
+      "Rate task priority using due date + module weighting with Gemini and custom tuning."
+  },
+  {
     id: "seedDemo",
     title: "Golden Path Seed",
     description:

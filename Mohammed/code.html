@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aura | AI Chief-of-Staff</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b6cee",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-card {
+            background: rgba(28, 31, 39, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(59, 67, 84, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen font-display">
+<div class="max-w-5xl mx-auto px-6 py-8">
+<!-- Top Header -->
+<header class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+<div class="flex items-center gap-4">
+<div class="bg-primary p-2 rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-white text-2xl">auto_awesome</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Aura</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">Your AI Chief-of-Staff for University</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-3">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-200/50 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700">
+<span class="material-symbols-outlined text-sm text-primary">account_balance</span>
+<span class="text-xs font-semibold uppercase tracking-wider">169 unis</span>
+</div>
+<a class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-200/50 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 hover:border-primary/50 transition-colors group" href="#">
+<span class="material-symbols-outlined text-sm text-primary group-hover:scale-110 transition-transform">work</span>
+<span class="text-xs font-semibold uppercase tracking-wider">768 jobs</span>
+</a>
+<a class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-200/50 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 hover:border-primary/50 transition-colors group" href="#">
+<span class="material-symbols-outlined text-sm text-primary group-hover:scale-110 transition-transform">payments</span>
+<span class="text-xs font-semibold uppercase tracking-wider">£3.4k funding</span>
+</a>
+</div>
+</header>
+<!-- Main Body (Middle): Proactive AI Notification -->
+<main class="mb-16">
+<div class="relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-primary/30 to-purple-600/30 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+<div class="relative glass-card rounded-xl p-8 md:p-12 shadow-2xl">
+<div class="flex items-start gap-6">
+<div class="hidden md:flex flex-col items-center">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-primary">notifications_active</span>
+</div>
+<div class="w-px h-full bg-gradient-to-b from-primary/50 to-transparent"></div>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-4">
+<span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-xs font-bold tracking-widest uppercase text-primary">Priority Update</span>
+</div>
+<h2 class="text-2xl md:text-3xl font-light leading-relaxed text-slate-900 dark:text-slate-100">
+<strong class="font-bold">Alex (KCL CS Y2)</strong> — Databases due <span class="text-red-400">Fri</span>. 
+                                Goldman closes <span class="text-yellow-400">tomorrow</span>. 
+                                <span class="text-primary font-medium">£3.4k DSA grant</span> found.
+                            </h2>
+<div class="mt-8 flex gap-4">
+<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg font-medium transition-all shadow-lg shadow-primary/25">
+                                    Take Action
+                                </button>
+<button class="bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 px-6 py-2.5 rounded-lg font-medium transition-all">
+                                    Dismiss
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Section: Timeline -->
+<section class="mb-12">
+<h3 class="text-sm font-bold uppercase tracking-[0.2em] text-slate-500 mb-8 flex items-center gap-3">Daily Roadmap
+<div class="h-px flex-1 bg-slate-200 dark:bg-slate-800"></div>
+<a class="text-[10px] text-primary hover:underline flex items-center gap-1 normal-case tracking-normal font-medium" href="#">
+    View All Module Notes
+    <span class="material-symbols-outlined text-sm">chevron_right</span>
+</a></h3>
+<div class="relative px-4">
+<div class="absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 dark:bg-slate-800 -translate-y-1/2 hidden md:block"></div>
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 relative z-10">
+<!-- SQL Practice -->
+<div class="flex items-center md:flex-col gap-4 md:gap-3 bg-background-light dark:bg-background-dark pr-4 md:pr-0">
+<div class="w-10 h-10 rounded-full bg-green-500/20 border-2 border-green-500 flex items-center justify-center text-green-500">
+<span class="material-symbols-outlined text-xl">database</span>
+</div>
+<div class="text-left md:text-center">
+<p class="font-bold text-slate-900 dark:text-white">SQL Practice</p>
+<p class="text-xs text-green-500 font-bold uppercase tracking-wider">Now Active</p>
+</div>
+</div>
+<!-- Apply Goldman -->
+<div class="flex items-center md:flex-col gap-4 md:gap-3 bg-background-light dark:bg-background-dark px-4 md:px-6">
+<div class="w-10 h-10 rounded-full bg-yellow-500/20 border-2 border-yellow-500 flex items-center justify-center text-yellow-500">
+<span class="material-symbols-outlined text-xl">history_edu</span>
+</div>
+<div class="text-left md:text-center">
+<p class="font-bold text-slate-900 dark:text-white">Apply Goldman</p>
+<p class="text-xs text-yellow-500 font-bold uppercase tracking-wider">10:30 Upcoming</p>
+</div>
+</div>
+<!-- Socratic Session -->
+<div class="flex items-center md:flex-col gap-4 md:gap-3 bg-background-light dark:bg-background-dark pl-4 md:pl-0">
+<div class="w-10 h-10 rounded-full bg-purple-500/20 border-2 border-purple-500 flex items-center justify-center text-purple-500">
+<span class="material-symbols-outlined text-xl">forum</span>
+</div>
+<div class="text-left md:text-center">
+<p class="font-bold text-slate-900 dark:text-white">Socratic Session</p>
+<p class="text-xs text-purple-500 font-bold uppercase tracking-wider">13:00 Scheduled</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Focused Opportunity Cards -->
+<div class="flex items-center justify-between mb-4 px-1">
+<h3 class="text-sm font-bold uppercase tracking-[0.2em] text-slate-500">Tailored Opportunities</h3>
+<div class="flex gap-6">
+<a class="text-xs text-primary font-medium hover:underline flex items-center gap-1" href="#">
+            View All Jobs
+            <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+<a class="text-xs text-primary font-medium hover:underline flex items-center gap-1" href="#">
+            View All Funding
+            <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</div>
+</div><section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Card 1: Careers -->
+<div class="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-xl p-6 hover:border-primary/50 transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center overflow-hidden border border-slate-200 dark:border-slate-700">
+<img class="w-full h-full object-cover" data-alt="Morgan Stanley company logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5oMDzpOqfhYyqynEK5M4Q_51vYaHHCAIj9bkHn9DQIOwW6dI4y3jWjwlbRwTO8Y5wwbUOBmIfyPPKdihrgR2P1zXhcueOPtQhwnBzjfI8vLjpkM33zPXwCCRHIpKA3oyPH-SWv8N0aip9xYOodoC-iA33sIGriL-kMLTIfsa1DQwX-FMNTzmPhcY7YQePf4_bS0eoV42dISb8Y7vg3GXqWNPjZUMse5wo2R_yw-A2ya9qDE0wKdl-zR3eX1Cy0v0ST9sBoUfZe2bS"/>
+</div>
+<div>
+<h4 class="font-bold text-lg">Morgan Stanley</h4>
+<p class="text-sm text-slate-500">Technology Analyst Internship</p>
+<span class="inline-block mt-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 border border-slate-700/50 px-2 py-0.5 rounded">Summer Internship</span></div>
+</div>
+<div class="bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full border border-primary/20">
+                        94% Match
+                    </div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold">JD</div>
+<div class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold">AK</div>
+</div>
+<button class="flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all">
+                        Apply Now
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Card 2: Finance -->
+<div class="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-xl p-6 hover:border-primary/50 transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-primary text-2xl">account_balance_wallet</span>
+</div>
+<div>
+<h4 class="font-bold text-lg">DSA Grant</h4>
+<p class="text-sm text-slate-500">Disabled Students Allowance</p>
+</div>
+</div>
+<div class="bg-green-500/10 text-green-500 text-xs font-bold px-3 py-1 rounded-full border border-green-500/20">
+                        Available
+                    </div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="text-2xl font-bold text-slate-900 dark:text-white">£25k <span class="text-sm font-normal text-slate-500">max available</span></p>
+</div>
+<button class="flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all">
+                        Claim Funding
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+</section><!-- Upcoming Events Header -->
+<div class="flex items-center justify-between mt-12 mb-4 px-1">
+<h3 class="text-sm font-bold uppercase tracking-[0.2em] text-slate-500">Upcoming Events</h3>
+<a class="text-xs text-primary font-medium hover:underline flex items-center gap-1" href="#">
+        View All Events
+        <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</div>
+<!-- Upcoming Events Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Card: Hackathon -->
+<div class="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-xl p-6 hover:border-primary/50 transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center border border-purple-500/20">
+<span class="material-symbols-outlined text-purple-500 text-2xl">terminal</span>
+</div>
+<div>
+<h4 class="font-bold text-lg">HackKing's 2024</h4>
+<p class="text-sm text-slate-500">KCL Tech Society</p>
+</div>
+</div>
+<div class="bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full border border-primary/20">
+                Registration Open
+            </div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm font-medium text-slate-900 dark:text-white">
+<span class="material-symbols-outlined text-xs align-middle mr-1">calendar_today</span>
+                    Oct 12-13 • Bush House
+                </p>
+</div>
+<button class="flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all">
+                Register Now
+                <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Card: Ask Aura -->
+<div class="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-xl p-6 hover:border-primary/50 transition-all cursor-pointer group flex flex-col justify-between">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-primary text-2xl">smart_toy</span>
+</div>
+<div>
+<h4 class="font-bold text-lg">Aura</h4>
+<p class="text-sm text-slate-500">Your Personal AI Assistant</p>
+</div>
+</div>
+<div class="relative flex-1 flex flex-col justify-end">
+<div class="relative">
+<input class="w-full bg-slate-100 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-lg py-2 pl-4 pr-10 text-sm focus:ring-primary focus:border-primary transition-all" placeholder="Ask Aura anything..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-primary text-xl">send</span>
+</div>
+</div>
+</div></section>
+<!-- Footer Info -->
+<footer class="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 text-center">
+<p class="text-xs text-slate-500 uppercase tracking-widest">© 2024 Aura AI • Integrated with KCL Systems</p>
+</footer>
+</div>
+</body></html>
