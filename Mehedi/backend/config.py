@@ -20,4 +20,4 @@ if not ELEVEN_KEY:
 genai.configure(api_key=GEMINI_KEY)
 
 # Expose reusable Gemini model instance
-gemini_model = genai.GenerativeModel("gemini-1.5-pro")
+gemini_model = genai.GenerativeModel("models/gemini-1.5-pro-latest")
