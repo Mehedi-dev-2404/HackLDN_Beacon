@@ -29,6 +29,19 @@ def get_tasks():
     # Sort by priority (higher stress = urgent tasks first)
     return sorted(tasks, key=lambda x: x.get("priority", 1), reverse=True)
 
+@app.get("/tasks/{task_id}")
+def get_task(task_id: str):
+    task = tasks_collection.find_one({"id": task_id}, {"_id": 0})
+    return task or {"error": "Task not found"}
+
+@app.put("/tasks/{task_id}")
+def update_task(task_id: str, task: Task):
+    tasks_collection.update_one(
+        {"id": task_id},
+        {"$set": task.dict()}
+    )
+    return {"message": "Task updated"}
+
 @app.post("/tasks")
 def create_task(task: Task):
     task_dict = task.dict()
