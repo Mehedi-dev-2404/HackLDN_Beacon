@@ -51,7 +51,7 @@ export default function QuickAsk({ onAsk, loading, placeholder }) {
           type="submit"
           disabled={!input.trim() || loading}
           className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 
-                     hover:text-white transition-colors disabled:opacity-30"
+                     hover:text-white transition-colors disabled:opacity-30 font-mono"
         >
           {loading ? '...' : '→'}
         </button>

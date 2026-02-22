@@ -1,7 +1,9 @@
-// OpportunityCard - Job/Funding cards from Mohammed code.html
-// Shows opportunities with match scores and action buttons
+// OpportunityCard - Job/Funding cards with keyboard accessibility
+import { useState } from 'react';
 
 export default function OpportunityCard({ opportunity, onApply }) {
+  const [focused, setFocused] = useState(false);
+
   const {
     type = 'job',
     title,
@@ -14,10 +16,22 @@ export default function OpportunityCard({ opportunity, onApply }) {
   } = opportunity;
 
   const isJob = type === 'job';
-  const isFunding = type === 'funding';
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      onApply?.(opportunity);
+    }
+  };
 
   return (
-    <div className="border border-gray-800 p-6 hover:border-gray-600 transition-all group animate-fade-in">
+    <div 
+      role="button"
+      tabIndex="0"
+      onKeyDown={handleKeyDown}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      className={`border p-6 hover:shadow-lg hover:shadow-white/5 transition-all group animate-fade-in cursor-pointer
+                   ${focused ? 'border-gray-600 shadow-lg shadow-white/5' : 'border-gray-800 hover:border-gray-600'}`}>
       {/* Header */}
       <div className="flex justify-between items-start mb-4">
         <div className="flex items-center gap-4">

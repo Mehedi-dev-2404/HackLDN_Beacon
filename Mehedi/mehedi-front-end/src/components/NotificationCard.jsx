@@ -44,7 +44,7 @@ export default function NotificationCard({ notification, onAction, onDismiss }) 
         </div>
 
         {/* Main message */}
-        <div className="text-lg leading-relaxed mb-6">
+        <div className="text-lg leading-relaxed mb-6 pl-4 border-l-2 border-gray-700 animate-border-glow">
           <span className="font-bold">{data.user}</span>
           <span className="text-gray-500"> ({data.university})</span>
           <span className="text-gray-400"> — </span>
@@ -52,7 +52,10 @@ export default function NotificationCard({ notification, onAction, onDismiss }) 
             <span key={i}>
               {alert.text}
               {alert.time && (
-                <span className={getUrgencyColor(alert.urgency)}> {alert.time}</span>
+                <span className={`${getUrgencyColor(alert.urgency)} ${
+                  alert.urgency === 'high' ? 'animate-pulse-ultra' : 
+                  alert.urgency === 'medium' ? 'animate-glow-yellow' : ''
+                }`}> {alert.time}</span>
               )}
               {i < data.alerts.length - 1 && <span className="text-gray-600">. </span>}
             </span>

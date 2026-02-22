@@ -71,11 +71,23 @@ export default function DailyRoadmap({ tasks, onTaskClick }) {
                            hover:bg-gray-900/50 md:hover:bg-transparent transition-all
                            text-left md:text-center group`}
               >
-                {/* Icon circle */}
-                <div className={`w-10 h-10 rounded-full ${style.border} ${style.bg} 
-                                border flex items-center justify-center
+                {/* Icon circle with rotating ring for active */}
+                <div className={`relative w-10 h-10 flex items-center justify-center
                                 group-hover:scale-110 transition-transform`}>
-                  <span className={style.text}>●</span>
+                  {task.status === 'active' && (
+                    <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-white animate-spin-slow" />
+                  )}
+                  <div className={`w-10 h-10 rounded-full ${style.border} ${style.bg} 
+                                  border flex items-center justify-center`}>
+                    <span className={style.text}>●</span>
+                  </div>
+                  {/* Tooltip */}
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 
+                                  bg-gray-900 border border-gray-700 text-xs text-gray-400 
+                                  whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity 
+                                  pointer-events-none z-10">
+                    {task.title} • {task.time}
+                  </div>
                 </div>
                 
                 {/* Text */}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SocraticPanel from './components/SocraticPanel';
 import PriorityPanel from './components/PriorityPanel';
 import StatsBar from './components/StatsBar';
@@ -6,12 +6,15 @@ import NotificationCard from './components/NotificationCard';
 import DailyRoadmap from './components/DailyRoadmap';
 import OpportunityCard from './components/OpportunityCard';
 import QuickAsk from './components/QuickAsk';
+import TerminalLoader from './components/TerminalLoader';
+import SystemStatus from './components/SystemStatus';
 import { 
   analyzeCareer, 
   getSocraticQuestion, 
   generateProfile, 
   generatePriorities,
-  stopSpeech 
+  stopSpeech,
+  analyzeCareerWithFallback
 } from './api';
 
 // App states
@@ -31,6 +34,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [quickAskLoading, setQuickAskLoading] = useState(false);
+  const [mockMode, setMockMode] = useState(false);
 
   // Daily roadmap tasks
   const [dailyTasks] = useState([
@@ -75,13 +79,16 @@ export default function App() {
     Experience Level: Graduate / Entry-level
   `;
 
-  // Handler: START button clicked
+  // Handler: START button clicked with fallback to mock mode
   const handleStart = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const result = await analyzeCareer(mockJobDescription);
+      const result = await analyzeCareerWithFallback(mockJobDescription);
+      if (result.isMock) {
+        setMockMode(true);
+      }
       setAnalysis(result);
       setProfile(generateProfile(result));
       setPriorities(generatePriorities(result));
@@ -368,10 +375,16 @@ export default function App() {
         <div className="max-w-[900px] mx-auto px-6 py-3">
           <div className="flex justify-between text-gray-600 text-xs">
             <span>beacon v1.0</span>
-            <span>backend: localhost:8000</span>
+            <span>{mockMode ? 'mock mode' : 'backend: localhost:8000'}</span>
           </div>
         </div>
       </footer>
+
+      {/* System Status Indicator */}
+      <SystemStatus />
+
+      {/* Terminal Loader */}
+      <TerminalLoader active={loading} />
     </div>
   );
 }

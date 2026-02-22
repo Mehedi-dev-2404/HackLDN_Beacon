@@ -163,3 +163,25 @@ export function generatePriorities(analysis) {
   
   return priorities.slice(0, 3);
 }
+
+// Mock data generator for demo mode
+function generateMockAnalysis() {
+  return {
+    technical_skills: ['Python', 'JavaScript', 'React'],
+    tools_technologies: ['Git', 'Docker', 'PostgreSQL'],
+    cognitive_skills: ['Problem-solving', 'System Design', 'Critical Thinking'],
+    behavioural_traits: ['Communication', 'Teamwork', 'Leadership'],
+    experience_level: 'Graduate / Entry-level',
+    isMock: true
+  };
+}
+
+// Fallback API call with automatic mock mode
+export async function analyzeCareerWithFallback(jobText) {
+  try {
+    return await analyzeCareer(jobText);
+  } catch (err) {
+    console.warn('Backend unavailable, using mock data:', err.message);
+    return generateMockAnalysis();
+  }
+}
