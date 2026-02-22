@@ -12,14 +12,14 @@ client = TestClient(app)
 
 def test_validate_startup_dependencies_requires_mongo_and_gemini() -> None:
     settings = Settings(
-        app_name="Aura API",
+        app_name="Beacon API",
         app_version="0.1.0",
         environment="test",
         gemini_api_key="",
         eleven_labs_api_key="",
         mongo_uri="",
-        db_name="aura_test",
-        tasks_db_name="aura_tasks_test",
+        db_name="beacon_test",
+        tasks_db_name="beacon_tasks_test",
         llm_model="gemini-1.5-pro",
         enable_live_llm=False,
         allowed_origins=["*"],

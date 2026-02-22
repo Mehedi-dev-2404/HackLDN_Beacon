@@ -1,12 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SocraticPanel from './components/SocraticPanel';
 import PriorityPanel from './components/PriorityPanel';
+import StatsBar from './components/StatsBar';
+import NotificationCard from './components/NotificationCard';
+import DailyRoadmap from './components/DailyRoadmap';
+import OpportunityCard from './components/OpportunityCard';
+import QuickAsk from './components/QuickAsk';
+import TerminalLoader from './components/TerminalLoader';
+import SystemStatus from './components/SystemStatus';
 import { 
   analyzeCareer, 
   getSocraticQuestion, 
   generateProfile, 
   generatePriorities,
-  stopSpeech 
+  stopSpeech,
+  analyzeCareerWithFallback
 } from './api';
 
 // App states
@@ -25,6 +33,35 @@ export default function App() {
   const [socraticTopic, setSocraticTopic] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [quickAskLoading, setQuickAskLoading] = useState(false);
+  const [mockMode, setMockMode] = useState(false);
+
+  // Daily roadmap tasks
+  const [dailyTasks] = useState([
+    { id: 1, title: 'SQL Practice', status: 'active', time: 'Now' },
+    { id: 2, title: 'Apply Goldman', status: 'upcoming', time: '10:30' },
+    { id: 3, title: 'Socratic Session', status: 'scheduled', time: '13:00' }
+  ]);
+
+  // Opportunities data
+  const [opportunities] = useState([
+    {
+      type: 'job',
+      title: 'Morgan Stanley',
+      subtitle: 'Technology Analyst Internship',
+      badge: 'Summer Internship',
+      matchScore: 94,
+      actionText: 'Apply Now'
+    },
+    {
+      type: 'funding',
+      title: 'DSA Grant',
+      subtitle: 'Disabled Students Allowance',
+      amount: '£25k',
+      available: true,
+      actionText: 'Claim Funding'
+    }
+  ]);
 
   // Mock job description for demo
   const mockJobDescription = `
@@ -42,13 +79,16 @@ export default function App() {
     Experience Level: Graduate / Entry-level
   `;
 
-  // Handler: START button clicked
+  // Handler: START button clicked with fallback to mock mode
   const handleStart = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const result = await analyzeCareer(mockJobDescription);
+      const result = await analyzeCareerWithFallback(mockJobDescription);
+      if (result.isMock) {
+        setMockMode(true);
+      }
       setAnalysis(result);
       setProfile(generateProfile(result));
       setPriorities(generatePriorities(result));
@@ -109,6 +149,34 @@ export default function App() {
     setSocraticQuestion('');
   };
 
+  // Handler: Quick Ask
+  const handleQuickAsk = async (question) => {
+    setQuickAskLoading(true);
+    try {
+      const result = await getSocraticQuestion(question, null);
+      setSocraticQuestion(result.question);
+      setSocraticTopic(question);
+      setAppState(STATES.SOCRATIC);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setQuickAskLoading(false);
+    }
+  };
+
+  // Handler: Task click from roadmap
+  const handleTaskClick = (task) => {
+    if (task.title === 'Socratic Session') {
+      handleEnterSocratic();
+    }
+  };
+
+  // Handler: Notification action
+  const handleNotificationAction = () => {
+    // Could navigate to priorities or trigger specific action
+    console.log('Taking action on notification');
+  };
+
   return (
     <div className="min-h-screen bg-black text-white font-mono flex flex-col">
       {/* STATE 1: LANDING */}
@@ -150,12 +218,15 @@ export default function App() {
                     <span className="text-gray-500">&gt;</span> beacon
                   </h1>
                 </div>
-                <button
-                  onClick={handleBackToLanding}
-                  className="text-gray-500 text-sm hover:text-white transition-colors"
-                >
-                  [ exit ]
-                </button>
+                <div className="flex items-center gap-6">
+                  <StatsBar />
+                  <button
+                    onClick={handleBackToLanding}
+                    className="text-gray-500 text-sm hover:text-white transition-colors"
+                  >
+                    [ exit ]
+                  </button>
+                </div>
               </div>
             </div>
           </header>
@@ -173,6 +244,11 @@ export default function App() {
                 </button>
               </div>
             )}
+
+            {/* Priority Notification */}
+            <NotificationCard 
+              onAction={handleNotificationAction}
+            />
 
             {/* Profile Snapshot */}
             <section className="animate-fade-in mb-8">
@@ -200,8 +276,39 @@ export default function App() {
               </div>
             </section>
 
+            {/* Daily Roadmap */}
+            <DailyRoadmap 
+              tasks={dailyTasks} 
+              onTaskClick={handleTaskClick}
+            />
+
             {/* Priority Engine */}
             <PriorityPanel priorities={priorities} />
+
+            {/* Opportunities Grid */}
+            <section className="animate-fade-in mt-8 mb-8">
+              <div className="flex items-center justify-between mb-4">
+                <div className="text-gray-500 text-xs tracking-wider">// opportunities</div>
+                <button className="text-xs text-gray-500 hover:text-white transition-colors">
+                  view all →
+                </button>
+              </div>
+              <div className="grid md:grid-cols-2 gap-4">
+                {opportunities.map((opp, idx) => (
+                  <OpportunityCard 
+                    key={idx} 
+                    opportunity={opp}
+                    onApply={(o) => console.log('Apply:', o)}
+                  />
+                ))}
+              </div>
+            </section>
+
+            {/* Quick Ask */}
+            <QuickAsk 
+              onAsk={handleQuickAsk}
+              loading={quickAskLoading}
+            />
 
             {/* Action Buttons */}
             <section className="animate-fade-in mt-8">
@@ -268,10 +375,16 @@ export default function App() {
         <div className="max-w-[900px] mx-auto px-6 py-3">
           <div className="flex justify-between text-gray-600 text-xs">
             <span>beacon v1.0</span>
-            <span>backend: localhost:8000</span>
+            <span>{mockMode ? 'mock mode' : 'backend: localhost:8000'}</span>
           </div>
         </div>
       </footer>
+
+      {/* System Status Indicator */}
+      <SystemStatus />
+
+      {/* Terminal Loader */}
+      <TerminalLoader active={loading} />
     </div>
   );
 }

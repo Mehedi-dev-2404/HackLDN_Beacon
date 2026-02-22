@@ -5,6 +5,6 @@ import os
 load_dotenv()
 
 client = MongoClient(os.getenv("MONGO_URI"))
-db = client["aura"]
+db = client["beacon"]
 
 tasks_collection = db["tasks"]
