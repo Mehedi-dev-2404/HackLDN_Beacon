@@ -148,14 +148,14 @@
 </div>
 </div>
 <!-- Socratic Session -->
-<div class="flex items-center md:flex-col gap-4 md:gap-3 bg-background-light dark:bg-background-dark pl-4 md:pl-0">
-<div class="w-10 h-10 rounded-full bg-purple-500/20 border-2 border-purple-500 flex items-center justify-center text-purple-500">
-<span class="material-symbols-outlined text-xl">forum</span>
-</div>
-<div class="text-left md:text-center">
-<p class="font-bold text-slate-900 dark:text-white">Socratic Session</p>
-<p class="text-xs text-purple-500 font-bold uppercase tracking-wider">13:00 Scheduled</p>
-</div>
+<div id="socratic-card" class="flex items-center md:flex-col gap-4 md:gap-3 bg-background-light dark:bg-background-dark pl-4 md:pl-0 cursor-pointer" role="button" tabindex="0" aria-pressed="false">
+    <div id="socratic-icon" class="w-10 h-10 rounded-full bg-purple-500/20 border-2 border-purple-500 flex items-center justify-center text-purple-500">
+        <span class="material-symbols-outlined text-xl">forum</span>
+    </div>
+    <div class="text-left md:text-center">
+        <p class="font-bold text-slate-900 dark:text-white">Socratic Session</p>
+        <p class="text-xs text-purple-500 font-bold uppercase tracking-wider">13:00 Scheduled</p>
+    </div>
 </div>
 </div>
 </div>
@@ -268,7 +268,7 @@
 </div>
 </div>
 <!-- Card: Ask Beacon -->
-<div class="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-xl p-6 hover:border-primary/50 transition-all cursor-pointer group flex flex-col justify-between">
+<div id="beacon-card" role="button" tabindex="0" class="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-xl p-6 hover:border-primary/50 transition-all cursor-pointer group flex flex-col justify-between">
 <div class="flex items-center gap-4 mb-4">
 <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center border border-primary/20">
 <span class="material-symbols-outlined text-primary text-2xl">smart_toy</span>
@@ -290,4 +290,34 @@
 <p class="text-xs text-slate-500 uppercase tracking-widest">© 2026 Beacon AI • Integrated with KCL Systems</p>
 </footer>
 </div>
+<script>
+function playQuestionAndOpenChat() {
+    const question = 'Quick question: what is the difference between a primary key and a foreign key in a relational database?';
+    if ('speechSynthesis' in window) {
+        const u = new SpeechSynthesisUtterance(question);
+        u.lang = 'en-GB';
+        u.rate = 1.0;
+        u.onend = function() { window.location.href = 'chat.html'; };
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(u);
+    } else {
+        window.location.href = 'chat.html';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const card = document.getElementById('socratic-card');
+    if (card) {
+        card.addEventListener('click', playQuestionAndOpenChat);
+        card.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); playQuestionAndOpenChat(); } });
+    }
+    const icon = document.getElementById('socratic-icon');
+    if (icon) { icon.addEventListener('click', function(e){ e.stopPropagation(); playQuestionAndOpenChat(); }); }
+    const beacon = document.getElementById('beacon-card');
+    if (beacon) {
+        beacon.addEventListener('click', function() { window.location.href = 'chat.html'; });
+        beacon.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.location.href = 'chat.html'; } });
+    }
+});
+</script>
 </body></html>
