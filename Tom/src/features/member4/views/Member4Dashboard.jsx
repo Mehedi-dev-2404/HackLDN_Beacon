@@ -14,13 +14,57 @@ export default function Member4Dashboard() {
           <input
             id="apiBaseUrl"
             type="text"
-            placeholder="http://localhost:8000"
+            placeholder="http://localhost:8010"
             value={vm.apiBaseUrl}
             onChange={(event) => vm.setApiBaseUrl(event.target.value)}
           />
           <p className="small">
             If URL is empty or endpoint fails, the UI auto-falls back to mock mode.
           </p>
+
+          <div className="row" style={{ marginTop: 10 }}>
+            <button type="button" className="primary" onClick={vm.loadData}>
+              Load Data
+            </button>
+            <button type="button" className="secondary" onClick={vm.loadJobs}>
+              Load Jobs
+            </button>
+          </div>
+
+          <div className="row" style={{ marginTop: 10 }}>
+            <div>
+              <label htmlFor="jobKeywords">Job Keywords</label>
+              <input
+                id="jobKeywords"
+                type="text"
+                placeholder="software engineer"
+                value={vm.jobKeywords}
+                onChange={(event) => vm.setJobKeywords(event.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="jobLimit">Job Limit</label>
+              <input
+                id="jobLimit"
+                type="number"
+                min="1"
+                max="20"
+                value={vm.jobLimit}
+                onChange={(event) => vm.setJobLimit(event.target.value)}
+              />
+            </div>
+          </div>
+
+          <div style={{ marginTop: 8 }}>
+            <label htmlFor="jobLocation">Job Location</label>
+            <input
+              id="jobLocation"
+              type="text"
+              placeholder="Toronto"
+              value={vm.jobLocation}
+              onChange={(event) => vm.setJobLocation(event.target.value)}
+            />
+          </div>
 
           <div style={{ marginTop: 12 }}>
             <label htmlFor="moodleHtml">Moodle HTML (optional raw input)</label>

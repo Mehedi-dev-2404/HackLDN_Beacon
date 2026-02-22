@@ -6,9 +6,9 @@ import {
   writeFileSync
 } from "node:fs";
 import path from "node:path";
+import { spawn } from "node:child_process";
 
-function loadDotEnv() {
-  const envPath = path.resolve(process.cwd(), ".env");
+function loadEnvFile(envPath) {
   if (!existsSync(envPath)) return;
 
   const lines = readFileSync(envPath, "utf8").split(/\r?\n/);
@@ -29,13 +29,32 @@ function loadDotEnv() {
   }
 }
 
+function loadDotEnv() {
+  const localEnvPath = path.resolve(process.cwd(), ".env");
+  const myappEnvPath = path.resolve(process.cwd(), "..", "myapp", ".env");
+  loadEnvFile(localEnvPath);
+  loadEnvFile(myappEnvPath);
+}
+
+function normalizeBaseUrl(url) {
+  const value = String(url || "").trim();
+  if (!value) return "";
+  return value.endsWith("/") ? value.slice(0, -1) : value;
+}
+
 loadDotEnv();
 
-const PORT = Number(process.env.PORT || 8000);
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
-const DEFAULT_GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-1.5-pro";
+const PORT = Number(process.env.PORT || 8010);
+const FASTAPI_BASE_URL = normalizeBaseUrl(
+  process.env.FASTAPI_BASE_URL || "http://127.0.0.1:8000"
+);
+
 const DATA_DIR = path.resolve(process.cwd(), "backend", "data");
 const LATEST_RESULT_FILE = path.join(DATA_DIR, "llm_priority_latest.json");
+const PIPELINE_MOCK_FILE = path.resolve(process.cwd(), "backend", "pipeline_mock_data.json");
+const REPO_ROOT = path.resolve(process.cwd(), "..");
+const LINKEDIN_SCRAPER_SCRIPT = path.join(REPO_ROOT, "linkedin_scrappers.py");
+const LINKEDIN_SESSION_FILE = path.join(REPO_ROOT, "linkedin_session.json");
 
 function setCors(res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -83,15 +102,27 @@ function readLatestJsonFile() {
   return JSON.parse(readFileSync(LATEST_RESULT_FILE, "utf8"));
 }
 
-function toIsoString(value) {
-  if (!value) return null;
-  const date = value instanceof Date ? value : new Date(value);
-  if (Number.isNaN(date.getTime())) return null;
-  return date.toISOString();
-}
-
-function clamp(value, min, max) {
-  return Math.max(min, Math.min(max, value));
+function sampleCareerOpportunities() {
+  return [
+    {
+      company: "HSBC",
+      role: "Summer Internship",
+      closesOn: "2026-02-22",
+      skills: ["python", "reasoning"]
+    },
+    {
+      company: "BBC",
+      role: "Graduate Scheme",
+      closesOn: "2026-03-05",
+      skills: ["media", "data"]
+    },
+    {
+      company: "BlackRock",
+      role: "Off-Cycle Internship",
+      closesOn: "2026-02-28",
+      skills: ["finance", "python"]
+    }
+  ];
 }
 
 function scoreBand(score) {
@@ -101,130 +132,106 @@ function scoreBand(score) {
   return "low";
 }
 
-function normalizeTasks(tasks) {
-  if (!Array.isArray(tasks)) return [];
-
-  return tasks.map((task, index) => ({
-    id: String(task.id ?? `task-${index + 1}`),
-    title: String(task.title ?? task.module ?? `Task ${index + 1}`),
-    module: String(task.module ?? "General"),
-    dueAt: toIsoString(task.dueAt),
-    moduleWeightPercent: Number(task.moduleWeightPercent ?? 0),
-    estimatedHours: Number(task.estimatedHours ?? 0),
-    notes: String(task.notes ?? "")
-  }));
+function clampPriorityScore(value) {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) return 0;
+  return Math.max(0, Math.min(100, Math.round(parsed)));
 }
 
-function daysUntil(dueAt) {
-  if (!dueAt) return 999;
-  const now = Date.now();
-  const due = new Date(dueAt).getTime();
-  return Math.ceil((due - now) / (1000 * 60 * 60 * 24));
-}
-
-function heuristicPriority(tasks, tuning = {}) {
-  const deadlineWeight = Number(tuning.deadlineWeight ?? 0.55);
-  const moduleWeight = Number(tuning.moduleWeight ?? 0.35);
-  const effortWeight = Number(tuning.effortWeight ?? 0.1);
-
-  const total = deadlineWeight + moduleWeight + effortWeight || 1;
-  const dw = deadlineWeight / total;
-  const mw = moduleWeight / total;
-  const ew = effortWeight / total;
-
-  const ratedTasks = tasks
-    .map((task) => {
-      const daysLeft = daysUntil(task.dueAt);
-      const urgency = clamp(100 - daysLeft * 9, 0, 100);
-      const impact = clamp(task.moduleWeightPercent * 2.2, 0, 100);
-      const effort = clamp(task.estimatedHours * 10, 0, 100);
-      const priorityScore = Math.round(dw * urgency + mw * impact + ew * effort);
-
-      return {
-        id: task.id,
-        title: task.title,
-        module: task.module,
-        dueAt: task.dueAt,
-        moduleWeightPercent: task.moduleWeightPercent,
-        priorityScore,
-        priorityBand: scoreBand(priorityScore),
-        reason: `Due in ${daysLeft} day(s), module weight ${task.moduleWeightPercent}%`
-      };
-    })
-    .sort((a, b) => b.priorityScore - a.priorityScore);
-
-  return {
-    ratedTasks,
-    summary: "Heuristic fallback used"
-  };
-}
-
-function buildPrompt(tasks, llmConfig) {
-  const customPrompt = String(llmConfig.customPrompt || "").trim();
-  const basePrompt = customPrompt
-    ? customPrompt
-    : "Prioritize tasks by near due date and high module weighting. Return strict JSON.";
-
-  return `${basePrompt}\n\nReturn JSON only:\n{\n  \"ratedTasks\": [{\n    \"id\": \"string\",\n    \"priorityScore\": 0-100,\n    \"priorityBand\": \"critical|high|medium|low\",\n    \"reason\": \"short reason\"\n  }],\n  \"summary\": \"short summary\"\n}\n\nTasks:\n${JSON.stringify(tasks, null, 2)}`;
-}
-
-function parseJsonText(value) {
-  const raw = String(value || "").trim();
-  const cleaned = raw
+function parseJsonText(rawText) {
+  const text = String(rawText || "").trim();
+  const fenced = text
     .replace(/^```json\s*/i, "")
     .replace(/^```\s*/i, "")
     .replace(/```\s*$/i, "");
-  return JSON.parse(cleaned);
+  return JSON.parse(fenced);
 }
 
-function normalizeLlmOutput(llmOutput, tasks) {
-  const byId = Object.fromEntries(tasks.map((task) => [task.id, task]));
-  const rawRated = Array.isArray(llmOutput?.ratedTasks) ? llmOutput.ratedTasks : [];
+function buildGeminiPriorityPrompt(tasks, llmConfig = {}) {
+  const customPrompt = String(llmConfig.customPrompt || "").trim();
+  const prompt = customPrompt
+    ? customPrompt
+    : "Prioritize student tasks by due date urgency, module weighting, and estimated effort.";
 
-  const ratedTasks = rawRated
-    .map((entry) => {
-      const id = String(entry.id || "");
-      const task = byId[id];
-      if (!task) return null;
+  return `${prompt}
 
-      const priorityScore = clamp(Number(entry.priorityScore ?? 0), 0, 100);
-      return {
-        id: task.id,
-        title: task.title,
-        module: task.module,
-        dueAt: task.dueAt,
-        moduleWeightPercent: task.moduleWeightPercent,
-        priorityScore,
-        priorityBand: ["critical", "high", "medium", "low"].includes(entry.priorityBand)
-          ? entry.priorityBand
-          : scoreBand(priorityScore),
-        reason: String(entry.reason || "Gemini rating")
-      };
-    })
-    .filter(Boolean)
-    .sort((a, b) => b.priorityScore - a.priorityScore);
+Return JSON only in this exact shape:
+{
+  "rated_tasks": [
+    {
+      "id": "string",
+      "title": "string",
+      "priority_score": 0,
+      "priority_band": "critical|high|medium|low",
+      "reason": "short reason"
+    }
+  ],
+  "summary": "short summary"
+}
 
+Tasks:
+${JSON.stringify(tasks, null, 2)}`;
+}
+
+function normalizeGeminiRatedTasks(parsed, sourceTasks) {
+  const byId = Object.fromEntries(sourceTasks.map((task) => [String(task.id), task]));
+  const incoming = Array.isArray(parsed?.rated_tasks)
+    ? parsed.rated_tasks
+    : Array.isArray(parsed?.ratedTasks)
+      ? parsed.ratedTasks
+      : [];
+
+  const normalized = incoming.map((task, index) => {
+    const id = String(task?.id || `task-${index + 1}`);
+    const source = byId[id] || {};
+    const title = String(task?.title || source.title || `Task ${index + 1}`);
+    const score = clampPriorityScore(task?.priority_score ?? task?.priorityScore);
+    const band = String(task?.priority_band || task?.priorityBand || scoreBand(score)).toLowerCase();
+    const reason = String(task?.reason || "Gemini prioritization");
+    return {
+      id,
+      title,
+      priority_score: score,
+      priority_band: ["critical", "high", "medium", "low"].includes(band)
+        ? band
+        : scoreBand(score),
+      reason
+    };
+  });
+
+  normalized.sort((a, b) => b.priority_score - a.priority_score);
   return {
-    ratedTasks,
-    summary: String(llmOutput?.summary || "Gemini prioritization complete")
+    rated_tasks: normalized,
+    summary: String(parsed?.summary || `Prioritized ${normalized.length} task(s)`),
+    fallback: false
   };
 }
 
-async function callGemini(tasks, llmConfig) {
-  if (!GEMINI_API_KEY) {
-    throw new Error("GEMINI_API_KEY is missing");
+async function callGeminiPriorityDirect(tasks, llmConfig = {}) {
+  const apiKey = String(llmConfig.apiKey || process.env.GEMINI_API_KEY || "").trim();
+  if (!apiKey) {
+    throw new Error(
+      "No Gemini API key available for direct LLM prioritization. " +
+        "Provide llmConfig.apiKey or set GEMINI_API_KEY in Tom/.env or myapp/.env"
+    );
   }
 
-  const model = String(llmConfig.model || DEFAULT_GEMINI_MODEL);
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(
-    GEMINI_API_KEY
-  )}`;
+  const rawModel = String(llmConfig.model || "gemini-2.5-flash").trim();
+  const model = rawModel.replace(/^models\//i, "");
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(
+    model
+  )}:generateContent?key=${encodeURIComponent(apiKey)}`;
 
   const response = await fetch(endpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      contents: [{ role: "user", parts: [{ text: buildPrompt(tasks, llmConfig) }] }],
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: buildGeminiPriorityPrompt(tasks, llmConfig) }]
+        }
+      ],
       generationConfig: {
         temperature: Number(llmConfig.temperature ?? 0.2),
         responseMimeType: "application/json"
@@ -237,12 +244,142 @@ async function callGemini(tasks, llmConfig) {
   }
 
   const data = await response.json();
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text) {
+  const content = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!content) {
     throw new Error("Gemini response missing content");
   }
 
-  return parseJsonText(text);
+  const parsed = parseJsonText(content);
+  return normalizeGeminiRatedTasks(parsed, tasks);
+}
+
+function toCamelAssignment(item) {
+  return {
+    title: item.title,
+    module: item.module,
+    dueAt: item.due_at ?? null,
+    moduleWeightPercent: Number(item.module_weight_percent ?? 0),
+    estimatedHours: Number(item.estimated_hours ?? 0),
+    notes: item.notes ?? ""
+  };
+}
+
+function toSnakeTask(task, index) {
+  return {
+    id: String(task.id ?? `task-${index + 1}`),
+    title: String(task.title ?? task.module ?? `Task ${index + 1}`),
+    module: String(task.module ?? "General"),
+    due_at: task.dueAt ?? null,
+    module_weight_percent: Number(task.moduleWeightPercent ?? 0),
+    estimated_hours: Number(task.estimatedHours ?? 0),
+    notes: String(task.notes ?? "")
+  };
+}
+
+function buildMappedTasks(moodleData, careerData) {
+  const assignments = Array.isArray(moodleData?.assignments)
+    ? moodleData.assignments
+    : [];
+  const opportunities = Array.isArray(careerData?.opportunities)
+    ? careerData.opportunities
+    : [];
+
+  const coursework = assignments.map((task) => ({
+    title: `Finish ${task.title || "assignment"}`,
+    owner: "student",
+    kind: "coursework",
+    priority: 1
+  }));
+
+  const career = opportunities.map((item) => ({
+    title: `Prepare for ${item.company || "company"} ${item.role || "opportunity"}`,
+    owner: "student",
+    kind: "career",
+    priority: 1
+  }));
+
+  return coursework.concat(career);
+}
+
+async function callFastApi(pathname, method = "GET", payload = undefined) {
+  if (!FASTAPI_BASE_URL) {
+    throw new Error("FASTAPI_BASE_URL is missing");
+  }
+
+  const response = await fetch(`${FASTAPI_BASE_URL}${pathname}`, {
+    method,
+    headers: { "Content-Type": "application/json" },
+    body: payload === undefined ? undefined : JSON.stringify(payload)
+  });
+
+  const text = await response.text();
+  let parsed;
+  try {
+    parsed = text ? JSON.parse(text) : {};
+  } catch {
+    parsed = { raw: text };
+  }
+
+  if (!response.ok) {
+    throw new Error(`FastAPI ${method} ${pathname} failed: HTTP ${response.status}`);
+  }
+
+  return parsed;
+}
+
+function runPythonLinkedInScraper({ keywords, location, limit }) {
+  const args = [
+    LINKEDIN_SCRAPER_SCRIPT,
+    "--keywords",
+    String(keywords || "software engineer"),
+    "--location",
+    String(location || ""),
+    "--limit",
+    String(Math.max(1, Number(limit) || 5)),
+    "--session-path",
+    LINKEDIN_SESSION_FILE,
+    "--json"
+  ];
+
+  return new Promise((resolve, reject) => {
+    const proc = spawn("python3", args, {
+      cwd: REPO_ROOT,
+      stdio: ["ignore", "pipe", "pipe"]
+    });
+
+    let stdout = "";
+    let stderr = "";
+
+    proc.stdout.on("data", (chunk) => {
+      stdout += chunk.toString();
+    });
+    proc.stderr.on("data", (chunk) => {
+      stderr += chunk.toString();
+    });
+
+    proc.on("error", (error) => {
+      reject(error);
+    });
+
+    proc.on("close", (code) => {
+      const cleaned = String(stdout || "").trim();
+      if (!cleaned) {
+        reject(new Error(`LinkedIn scraper returned no output (code=${code}): ${stderr}`));
+        return;
+      }
+
+      try {
+        const parsed = JSON.parse(cleaned);
+        if (code !== 0 && !parsed.jobs) {
+          reject(new Error(parsed.error || stderr || `LinkedIn scraper failed (code=${code})`));
+          return;
+        }
+        resolve(parsed);
+      } catch {
+        reject(new Error(`Invalid JSON from LinkedIn scraper: ${cleaned.slice(0, 300)}`));
+      }
+    });
+  });
 }
 
 const server = createServer(async (req, res) => {
@@ -256,12 +393,22 @@ const server = createServer(async (req, res) => {
   }
 
   if (req.method === "GET" && url.pathname === "/health") {
-    sendJson(res, 200, {
-      ok: true,
-      service: "member4-gemini-priority-api",
-      hasGeminiKey: Boolean(GEMINI_API_KEY),
-      latestResultFile: LATEST_RESULT_FILE
-    });
+    try {
+      const fastapiHealth = await callFastApi("/api/v1/health");
+      sendJson(res, 200, {
+        ok: true,
+        service: "member4-node-bridge",
+        fastapiBaseUrl: FASTAPI_BASE_URL,
+        fastapi: fastapiHealth
+      });
+    } catch (error) {
+      sendJson(res, 200, {
+        ok: false,
+        service: "member4-node-bridge",
+        fastapiBaseUrl: FASTAPI_BASE_URL,
+        error: error.message
+      });
+    }
     return;
   }
 
@@ -275,54 +422,184 @@ const server = createServer(async (req, res) => {
     return;
   }
 
+  if (req.method === "POST" && url.pathname === "/member4/moodle-sync") {
+    try {
+      const body = await readJson(req);
+      const payload = await callFastApi("/api/v1/scrape", "POST", {
+        source_url: "",
+        mode: "http",
+        raw_html: String(body.moodleHtml || "")
+      });
+
+      sendJson(res, 200, {
+        source: payload.source || "moodle",
+        assignments: (payload.assignments || []).map(toCamelAssignment)
+      });
+    } catch (error) {
+      sendJson(res, 502, { error: error.message });
+    }
+    return;
+  }
+
+  if (req.method === "POST" && url.pathname === "/member4/career-sync") {
+    try {
+      const body = await readJson(req);
+      let opportunities = sampleCareerOpportunities();
+
+      if (body.injectedCareerJson) {
+        const parsed = JSON.parse(String(body.injectedCareerJson));
+        if (!Array.isArray(parsed)) {
+          throw new Error("injectedCareerJson must be a JSON array");
+        }
+        opportunities = parsed;
+      }
+
+      sendJson(res, 200, {
+        source: "career",
+        opportunities
+      });
+    } catch (error) {
+      sendJson(res, 400, { error: error.message });
+    }
+    return;
+  }
+
+  if (req.method === "POST" && url.pathname === "/member4/load-data") {
+    try {
+      const body = await readJson(req);
+      let payload = {
+        source_url: "",
+        scrape_mode: "http",
+        custom_prompt:
+          "Prioritize by nearest due date, then highest module weighting, then effort.",
+        raw_html:
+          "<html><body><ul><li>Business Essay Draft</li><li>Math Revision Sheet</li></ul></body></html>"
+      };
+
+      if (existsSync(PIPELINE_MOCK_FILE)) {
+        payload = {
+          ...payload,
+          ...JSON.parse(readFileSync(PIPELINE_MOCK_FILE, "utf8"))
+        };
+      }
+
+      if (body?.rawHtml) {
+        payload.raw_html = String(body.rawHtml);
+      }
+
+      const workflow = await callFastApi("/api/v1/workflow/run", "POST", payload);
+      sendJson(res, 200, {
+        mode: "live",
+        source: "pipeline-mock",
+        requestPayload: payload,
+        workflow
+      });
+    } catch (error) {
+      sendJson(res, 502, { error: error.message });
+    }
+    return;
+  }
+
+  if (req.method === "POST" && url.pathname === "/member4/load-jobs") {
+    try {
+      const body = await readJson(req);
+      const keywords = String(body.keywords || "software engineer");
+      const location = String(body.location || "Remote");
+      const limit = Math.max(1, Number(body.limit) || 5);
+
+      const payload = await runPythonLinkedInScraper({
+        keywords,
+        location,
+        limit
+      });
+
+      const jobs = Array.isArray(payload.jobs) ? payload.jobs : [];
+      sendJson(res, 200, {
+        mode: "live",
+        source: "linkedin-live",
+        query: { keywords, location, limit },
+        jobCount: jobs.length,
+        jobs
+      });
+    } catch (error) {
+      sendJson(res, 502, {
+        error: `LinkedIn live scraping failed: ${error.message}`
+      });
+    }
+    return;
+  }
+
+  if (req.method === "POST" && url.pathname === "/member4/clean-map") {
+    try {
+      const body = await readJson(req);
+      const mappedTasks = buildMappedTasks(body.moodleData, body.careerData);
+      sendJson(res, 200, {
+        schemaVersion: "task-v1",
+        mappedTasks
+      });
+    } catch (error) {
+      sendJson(res, 400, { error: error.message });
+    }
+    return;
+  }
+
   if (req.method === "POST" && url.pathname === "/member4/llm-priority") {
     try {
       const body = await readJson(req);
+      const incomingTasks = Array.isArray(body.tasks) ? body.tasks : [];
+      const tasks = incomingTasks.map((task, index) => toSnakeTask(task, index));
+
       const llmConfig = body.llmConfig || {};
-      const tasks = normalizeTasks(body.tasks);
+      const llmResponse = await callGeminiPriorityDirect(tasks, llmConfig);
+      const llmSource = "gemini-direct";
 
-      if (!tasks.length) {
-        const emptyResult = {
-          ratedTasks: [],
-          summary: "No tasks received",
-          provider: "gemini",
-          model: String(llmConfig.model || DEFAULT_GEMINI_MODEL),
-          fallback: true,
-          generatedAt: new Date().toISOString(),
-          filePath: LATEST_RESULT_FILE
-        };
-        writeLatestJsonFile(emptyResult);
-        sendJson(res, 200, emptyResult);
-        return;
-      }
+      const byId = Object.fromEntries(incomingTasks.map((task) => [String(task.id), task]));
+      const ratedTasks = (llmResponse.rated_tasks || []).map((task) => ({
+        id: task.id,
+        title: task.title,
+        module: byId[task.id]?.module || "General",
+        dueAt: byId[task.id]?.dueAt || null,
+        moduleWeightPercent: Number(byId[task.id]?.moduleWeightPercent ?? 0),
+        priorityScore: Number(task.priority_score ?? 0),
+        priorityBand: task.priority_band,
+        reason: task.reason
+      }));
 
-      let result;
-      try {
-        const raw = await callGemini(tasks, llmConfig);
-        result = {
-          ...normalizeLlmOutput(raw, tasks),
-          provider: "gemini",
-          model: String(llmConfig.model || DEFAULT_GEMINI_MODEL),
-          fallback: false,
-          generatedAt: new Date().toISOString(),
-          filePath: LATEST_RESULT_FILE
-        };
-      } catch (llmError) {
-        result = {
-          ...heuristicPriority(tasks, llmConfig.tuning || {}),
-          provider: "gemini",
-          model: String(llmConfig.model || DEFAULT_GEMINI_MODEL),
-          fallback: true,
-          fallbackReason: llmError.message,
-          generatedAt: new Date().toISOString(),
-          filePath: LATEST_RESULT_FILE
-        };
-      }
+      const payload = {
+        ratedTasks,
+        summary: llmResponse.summary || "Prioritization complete",
+        provider: "gemini-direct",
+        model: String(llmConfig.model || "gemini-2.5-flash").replace(/^models\//i, ""),
+        fallback: Boolean(llmResponse.fallback),
+        fallbackReason: llmResponse.fallback_reason || null,
+        source: llmSource,
+        generatedAt: new Date().toISOString(),
+        filePath: LATEST_RESULT_FILE
+      };
 
-      writeLatestJsonFile(result);
-      sendJson(res, 200, result);
+      writeLatestJsonFile(payload);
+      sendJson(res, 200, payload);
     } catch (error) {
-      sendJson(res, 400, { error: error.message || "Invalid request" });
+      sendJson(res, 502, { error: error.message });
+    }
+    return;
+  }
+
+  if (req.method === "POST" && url.pathname === "/member4/demo-seed") {
+    try {
+      const body = await readJson(req);
+      const mappedData = body.mappedData || {};
+      const mappedTasks = Array.isArray(mappedData.mappedTasks)
+        ? mappedData.mappedTasks
+        : [];
+
+      sendJson(res, 200, {
+        seeded: true,
+        seedId: `golden-path-${Date.now()}`,
+        notes: `Received ${mappedTasks.length} mapped task(s)`
+      });
+    } catch (error) {
+      sendJson(res, 400, { error: error.message });
     }
     return;
   }
@@ -331,7 +608,7 @@ const server = createServer(async (req, res) => {
 });
 
 server.listen(PORT, "127.0.0.1", () => {
-  console.log(`[member4-backend] listening on http://127.0.0.1:${PORT}`);
-  console.log("[member4-backend] routes: GET /health, GET /member4/llm-priority/file, POST /member4/llm-priority");
-  console.log(`[member4-backend] latest result json: ${LATEST_RESULT_FILE}`);
+  console.log(`[member4-node-bridge] listening on http://127.0.0.1:${PORT}`);
+  console.log(`[member4-node-bridge] forwarding to FastAPI: ${FASTAPI_BASE_URL}`);
+  console.log("[member4-node-bridge] routes: GET /health, POST /member4/*");
 });

@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "myapp"
+version = "0.1.0"
+description = "Aura FastAPI backend with layered architecture"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn>=0.29",
+  "pydantic>=2.6",
+  "python-dotenv>=1.0",
+  "pymongo>=4.6",
+  "google-genai>=0.3",
+  "elevenlabs>=0.2.27",
+  "playwright>=1.44"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "httpx>=0.27"
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

@@ -1,0 +1,15 @@
+You are a UK graduate scheme recruiter.
+
+Extract from the following job description:
+
+- Technical skills
+- Tools / technologies
+- Cognitive skills
+- Behavioural traits
+- Required experience level
+
+Return STRICT JSON only.
+No explanation.
+
+Job Description:
+{job_text}

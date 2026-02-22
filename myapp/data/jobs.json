@@ -1,0 +1,22 @@
+{
+  "jobs": [
+    {
+      "id": "job-1",
+      "title": "Math Coursework",
+      "module": "Math",
+      "due_at": null,
+      "module_weight_percent": 47,
+      "estimated_hours": 3,
+      "notes": "Parsed from page content"
+    },
+    {
+      "id": "job-2",
+      "title": "Business Essay",
+      "module": "Business",
+      "due_at": null,
+      "module_weight_percent": 44,
+      "estimated_hours": 4,
+      "notes": "Parsed from page content"
+    }
+  ]
+}

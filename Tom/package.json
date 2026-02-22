@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:myapp": "cd ../myapp && python3 -m uvicorn app.main:app --reload --port 8000",
     "dev:backend": "node backend/server.mjs",
     "build": "vite build",
     "preview": "vite preview"

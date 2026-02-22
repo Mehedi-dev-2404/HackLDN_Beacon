@@ -15,9 +15,9 @@ npm install
 npm run dev
 ```
 
-## Tiny Backend (LLM Proxy)
+## Node Integration Bridge (Recommended)
 
-Use this when you want `/member4/llm-priority` to run server-side (recommended so keys are not in browser).
+This project now uses a Node bridge that keeps the existing `/member4/*` routes for the React app and forwards to the FastAPI backend in `../myapp`.
 
 1. Create env file:
 
@@ -26,30 +26,38 @@ cd Tom
 cp .env.example .env
 ```
 
-2. Add Gemini key in `.env`:
-- `GEMINI_API_KEY=...`
+2. Configure `.env`:
+- `PORT=8010`
+- `FASTAPI_BASE_URL=http://127.0.0.1:8000`
 
-3. Run backend:
+3. Run FastAPI backend (terminal 1):
+
+```bash
+cd Tom
+npm run dev:myapp
+```
+
+4. Run Node bridge (terminal 2):
 
 ```bash
 cd Tom
 npm run dev:backend
 ```
 
-4. Run frontend in another terminal:
+5. Run frontend in another terminal:
 
 ```bash
 cd Tom
 npm run dev
 ```
 
-5. In UI, set `Backend API Base URL` to:
-- `http://127.0.0.1:8000`
+6. In UI, set `Backend API Base URL` to:
+- `http://127.0.0.1:8010`
 
 Health check:
 
 ```bash
-curl http://127.0.0.1:8000/health
+curl http://127.0.0.1:8010/health
 ```
 
 ## Hackathon Structure Choice
@@ -100,12 +108,26 @@ If you provide a backend base URL, these POST routes are used:
 - `/member4/llm-priority`
 - `/member4/demo-seed`
 
-Tiny backend included in `backend/server.mjs` currently implements:
+Node bridge in `backend/server.mjs` currently implements:
 - `GET /health`
 - `GET /member4/llm-priority/file`
+- `POST /member4/load-data`
+- `POST /member4/load-jobs`
 - `POST /member4/llm-priority`
+- `POST /member4/moodle-sync`
+- `POST /member4/career-sync`
+- `POST /member4/clean-map`
+- `POST /member4/demo-seed`
+
+These routes normalize payloads and forward to FastAPI endpoints under `/api/v1/*`.
 
 If any call fails, the UI automatically switches to mock mode so demo flow still works.
+
+## New One-Click Actions
+
+- `Load Data`: loads `backend/pipeline_mock_data.json` and runs FastAPI `/api/v1/workflow/run`.
+- `Load Jobs`: runs LinkedIn finder via `../linkedin_scrappers.py` using query fields (keywords, location, limit).
+- If LinkedIn session/scraping fails, the backend returns query-shaped mock job results.
 
 ## LLM Priority Tuning
 
@@ -121,7 +143,6 @@ You can run through:
 
 ## Why This Backend Route
 
-- Keeps LLM API keys off the frontend.
-- Uses a single Gemini path for consistent outputs.
-- Adds a safe heuristic fallback so demo still works if LLM call fails.
+- Keeps frontend contract stable (`/member4/*`) while backend evolves in FastAPI.
+- Allows Node/React team to move independently from Python service internals.
 - Persists latest output to `backend/data/llm_priority_latest.json` for easy frontend extraction.

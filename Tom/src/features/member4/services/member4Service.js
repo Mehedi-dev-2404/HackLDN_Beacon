@@ -1,4 +1,5 @@
 const DEFAULT_DELAY_MS = 700;
+const DEFAULT_POST_TIMEOUT_MS = 20000;
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -7,28 +8,48 @@ const normalizeBaseUrl = (baseUrl) => {
   return baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
 };
 
-async function postJson(baseUrl, path, payload) {
+async function postJson(baseUrl, path, payload, options = {}) {
   const url = `${normalizeBaseUrl(baseUrl)}${path}`;
   if (!normalizeBaseUrl(baseUrl)) {
     throw new Error("No API base URL configured");
   }
 
+  const timeoutMs = Math.max(1000, Number(options.timeoutMs ?? DEFAULT_POST_TIMEOUT_MS));
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 8000);
+  const timeoutId = setTimeout(() => {
+    controller.abort(`Request timeout after ${timeoutMs}ms`);
+  }, timeoutMs);
 
   try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-      signal: controller.signal
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+    let response;
+    try {
+      response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+    } catch (error) {
+      if (error?.name === "AbortError") {
+        throw new Error(`Request timeout after ${timeoutMs}ms for ${path}`);
+      }
+      throw error;
     }
 
-    return await response.json();
+    const text = await response.text();
+    let parsed = {};
+    try {
+      parsed = text ? JSON.parse(text) : {};
+    } catch {
+      parsed = text ? { raw: text } : {};
+    }
+
+    if (!response.ok) {
+      const detail = parsed?.error ? `: ${parsed.error}` : "";
+      throw new Error(`HTTP ${response.status}${detail}`);
+    }
+
+    return parsed;
   } finally {
     clearTimeout(timeoutId);
   }
@@ -121,7 +142,7 @@ function parseJsonText(rawText) {
 }
 
 async function callGeminiDirect(tasks, llmConfig) {
-  const model = llmConfig.model || "gemini-1.5-pro";
+  const model = String(llmConfig.model || "gemini-2.5-flash").replace(/^models\//i, "");
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(
     llmConfig.apiKey
   )}`;
@@ -215,11 +236,12 @@ export async function runLlmPriorityRating({ baseUrl, tasks, llmConfig }) {
       tasks: sanitizedTasks,
       llmConfig: {
         model: llmConfig.model,
+        apiKey: llmConfig.apiKey,
         temperature: llmConfig.temperature,
         customPrompt: llmConfig.customPrompt,
         tuning: llmConfig.tuning
       }
-    });
+    }, { timeoutMs: 45000 });
 
     return {
       mode: "live",
@@ -239,21 +261,16 @@ export async function runLlmPriorityRating({ baseUrl, tasks, llmConfig }) {
         reason: backendError?.message
       };
     } catch (directError) {
-      const mockData = runHeuristicPriority(sanitizedTasks, llmConfig);
-      return {
-        mode: "mock",
-        data: mockData,
-        reason: `Backend: ${backendError?.message || "n/a"}; Direct API: ${directError.message}`
-      };
+      throw new Error(
+        `Backend: ${backendError?.message || "n/a"}; Direct API: ${directError.message}`
+      );
     }
   }
 
   await wait(DEFAULT_DELAY_MS);
-  return {
-    mode: "mock",
-    data: runHeuristicPriority(sanitizedTasks, llmConfig),
-    reason: backendError?.message || "No backend/direct Gemini API available"
-  };
+  throw new Error(
+    backendError?.message || "No backend/direct Gemini API available for live LLM ranking"
+  );
 }
 
 export async function runMoodleSync({ baseUrl, moodleHtml }) {
@@ -364,4 +381,70 @@ export async function runDemoSeed({ baseUrl, mappedData }) {
       notes: "Stable demo scenario loaded"
     }
   });
+}
+
+const MOCK_LOAD_DATA_RESPONSE = {
+  mode: "mock",
+  source: "pipeline-mock",
+  requestPayload: {
+    source_url: "",
+    scrape_mode: "http",
+    custom_prompt:
+      "Prioritize by nearest due date, then highest module weighting, then effort.",
+    raw_html:
+      "<html><body><ul><li>Macroeconomics Essay Draft</li><li>Business Strategy Presentation</li><li>Mathematics Revision Quiz</li><li>Sport Science Reflection</li></ul></body></html>"
+  },
+  workflow: {
+    scrape: {
+      source: "inline",
+      mode: "http",
+      assignment_count: 4,
+      assignments: [
+        {
+          title: "Macroeconomics Essay Draft",
+          module: "Economics",
+          due_at: null,
+          module_weight_percent: 40,
+          estimated_hours: 6
+        },
+        {
+          title: "Business Strategy Presentation",
+          module: "Business",
+          due_at: null,
+          module_weight_percent: 50,
+          estimated_hours: 8
+        }
+      ]
+    },
+    llm: {
+      summary: "Mock prioritization output",
+      rated_tasks: [
+        { id: "task-1", title: "Business Strategy Presentation", priority_score: 88 },
+        { id: "task-2", title: "Macroeconomics Essay Draft", priority_score: 75 }
+      ]
+    },
+    persisted_jobs: 4,
+    persisted_tasks: 4
+  }
+};
+
+export async function runLoadData({ baseUrl, rawHtml = "" }) {
+  return runWithMockFallback({
+    baseUrl,
+    path: "/member4/load-data",
+    payload: { rawHtml },
+    mockData: MOCK_LOAD_DATA_RESPONSE
+  });
+}
+
+export async function runLoadJobs({ baseUrl, keywords, location, limit }) {
+  const data = await postJson(baseUrl, "/member4/load-jobs", {
+    keywords,
+    location,
+    limit
+  }, { timeoutMs: 120000 });
+  return {
+    mode: String(data?.mode || "live"),
+    data
+  };
 }

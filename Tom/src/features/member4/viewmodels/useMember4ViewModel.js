@@ -7,6 +7,8 @@ import {
   runCareerSync,
   runCleanAndMap,
   runDemoSeed,
+  runLoadData,
+  runLoadJobs,
   runLlmPriorityRating,
   runMoodleSync
 } from "../services/member4Service";
@@ -24,7 +26,7 @@ function safeParseJson(text, fallbackValue = {}) {
 }
 
 export default function useMember4ViewModel() {
-  const [apiBaseUrl, setApiBaseUrl] = useState("");
+  const [apiBaseUrl, setApiBaseUrl] = useState("http://127.0.0.1:8010");
   const [moodleHtml, setMoodleHtml] = useState("");
   const [injectedCareerJson, setInjectedCareerJson] = useState("");
   const [moduleWeightsJson, setModuleWeightsJson] = useState(`{
@@ -34,7 +36,7 @@ export default function useMember4ViewModel() {
   "Sport": 10
 }`);
 
-  const [llmModel, setLlmModel] = useState("gemini-1.5-pro");
+  const [llmModel, setLlmModel] = useState("gemini-2.5-flash");
   const [llmApiKey, setLlmApiKey] = useState("");
   const [llmTemperature, setLlmTemperature] = useState(0.2);
   const [allowDirectApi, setAllowDirectApi] = useState(false);
@@ -44,6 +46,9 @@ export default function useMember4ViewModel() {
   const [deadlineWeight, setDeadlineWeight] = useState(0.55);
   const [moduleWeight, setModuleWeight] = useState(0.35);
   const [effortWeight, setEffortWeight] = useState(0.1);
+  const [jobKeywords, setJobKeywords] = useState("software engineer");
+  const [jobLocation, setJobLocation] = useState("Toronto");
+  const [jobLimit, setJobLimit] = useState(5);
 
   const [taskState, setTaskState] = useState(createInitialTaskState);
   const [logs, setLogs] = useState([
@@ -54,7 +59,9 @@ export default function useMember4ViewModel() {
     career: null,
     mapped: null,
     priorityRatings: null,
-    seed: null
+    seed: null,
+    pipeline: null,
+    jobs: null
   });
 
   const overallProgress = useMemo(() => {
@@ -217,6 +224,74 @@ export default function useMember4ViewModel() {
     }
   };
 
+  const normalizeAssignmentsFromPipeline = (assignments) => {
+    if (!Array.isArray(assignments)) return [];
+    return assignments.map((item, index) => ({
+      id: `pipeline-${index + 1}`,
+      title: item.title ?? `Assignment ${index + 1}`,
+      module: item.module ?? "General",
+      dueAt: item.due_at ?? null,
+      moduleWeightPercent: Number(item.module_weight_percent ?? 0),
+      estimatedHours: Number(item.estimated_hours ?? 0),
+      notes: item.notes ?? ""
+    }));
+  };
+
+  const loadData = async () => {
+    try {
+      const result = await runLoadData({
+        baseUrl: apiBaseUrl,
+        rawHtml: moodleHtml
+      });
+      const workflow = result.data?.workflow ?? {};
+      const assignments = normalizeAssignmentsFromPipeline(
+        workflow?.scrape?.assignments ?? []
+      );
+
+      setDataStore((current) => ({
+        ...current,
+        pipeline: result.data,
+        moodle: {
+          source: workflow?.scrape?.source ?? "pipeline",
+          assignments
+        },
+        priorityRatings: {
+          ratedTasks: workflow?.llm?.rated_tasks ?? [],
+          summary: workflow?.llm?.summary ?? ""
+        }
+      }));
+
+      const resolvedMode = result.data?.mode || result.mode;
+      appendLog(
+        `Load Data finished in ${String(resolvedMode).toUpperCase()} mode. Jobs persisted: ${
+          workflow?.persisted_jobs ?? 0
+        }, tasks persisted: ${workflow?.persisted_tasks ?? 0}.`
+      );
+    } catch (error) {
+      appendLog(`Load Data failed: ${error.message || "Unknown error"}`);
+    }
+  };
+
+  const loadJobs = async () => {
+    try {
+      const result = await runLoadJobs({
+        baseUrl: apiBaseUrl,
+        keywords: jobKeywords,
+        location: jobLocation,
+        limit: Number(jobLimit)
+      });
+      setDataStore((current) => ({ ...current, jobs: result.data }));
+      const resolvedMode = result.data?.mode || result.mode;
+      appendLog(
+        `Load Jobs finished in ${String(resolvedMode).toUpperCase()} mode. Received ${
+          result.data?.jobCount ?? 0
+        } jobs for "${jobKeywords}" in "${jobLocation}".`
+      );
+    } catch (error) {
+      appendLog(`Load Jobs failed: ${error.message || "Unknown error"}`);
+    }
+  };
+
   const resetAll = () => {
     setTaskState(createInitialTaskState());
     setDataStore({
@@ -224,7 +299,9 @@ export default function useMember4ViewModel() {
       career: null,
       mapped: null,
       priorityRatings: null,
-      seed: null
+      seed: null,
+      pipeline: null,
+      jobs: null
     });
     setLogs([`[${nowLabel()}] State reset.`]);
   };
@@ -258,7 +335,15 @@ export default function useMember4ViewModel() {
     setModuleWeight,
     effortWeight,
     setEffortWeight,
+    jobKeywords,
+    setJobKeywords,
+    jobLocation,
+    setJobLocation,
+    jobLimit,
+    setJobLimit,
     runTask,
+    loadData,
+    loadJobs,
     resetAll,
     overallProgress
   };
