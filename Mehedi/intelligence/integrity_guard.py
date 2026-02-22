@@ -6,7 +6,7 @@ import re
 backend_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'backend')
 sys.path.insert(0, backend_path)
 
-from config import gemini_model
+from config import generate_content
 
 
 def check_academic_integrity(student_query: str) -> dict:
@@ -73,15 +73,7 @@ VIOLATION - if seeking direct completion
 Classification:"""
 
     try:
-        response = gemini_model.generate_content(
-            prompt,
-            generation_config={
-                "temperature": 0.1,
-                "top_p": 0.9,
-            }
-        )
-        
-        result = response.text.strip().upper()
+        result = generate_content(prompt, temperature=0.1, top_p=0.9).strip().upper()
         
         if "VIOLATION" in result:
             return {

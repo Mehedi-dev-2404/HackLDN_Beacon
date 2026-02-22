@@ -2,6 +2,6 @@
 Aura Backend Configuration
 """
 
-from .config import gemini_model, GEMINI_KEY, ELEVEN_KEY
+from .config import generate_content, gemini_client, GEMINI_KEY, ELEVEN_KEY
 
-__all__ = ['gemini_model', 'GEMINI_KEY', 'ELEVEN_KEY']
+__all__ = ['generate_content', 'gemini_client', 'GEMINI_KEY', 'ELEVEN_KEY']

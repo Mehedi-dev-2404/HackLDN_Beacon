@@ -7,7 +7,7 @@ import re
 backend_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'backend')
 sys.path.insert(0, backend_path)
 
-from config import gemini_model
+from config import generate_content
 
 
 def analyze_career_match(job_text: str) -> dict:
@@ -34,16 +34,7 @@ def analyze_career_match(job_text: str) -> dict:
     prompt = base_prompt.format(job_text=job_text)
 
     # Generate with very low temperature for deterministic extraction
-    response = gemini_model.generate_content(
-        prompt,
-        generation_config={
-            "temperature": 0.2,
-            "top_p": 0.9,
-            "top_k": 20,
-        }
-    )
-
-    raw_text = response.text.strip()
+    raw_text = generate_content(prompt, temperature=0.2, top_p=0.9, top_k=20).strip()
     
     # Safe JSON extraction with markdown fallback
     parsed_json = _extract_json_safely(raw_text)
@@ -67,6 +58,11 @@ def _extract_json_safely(text: str) -> dict:
     Raises:
         ValueError: If JSON cannot be parsed
     """
+    text = text.strip()
+    
+    # Remove any leading/trailing whitespace and BOM characters
+    text = text.lstrip('\ufeff\u200b\n\r\t ')
+    
     # Try direct JSON parse first
     try:
         return json.loads(text)
@@ -74,8 +70,8 @@ def _extract_json_safely(text: str) -> dict:
         pass
     
     # Check for markdown code blocks
-    markdown_pattern = r'```(?:json)?\s*(\{.*?\})\s*```'
-    match = re.search(markdown_pattern, text, re.DOTALL)
+    markdown_pattern = r'```(?:json)?\s*(\{[\s\S]*?\})\s*```'
+    match = re.search(markdown_pattern, text)
     
     if match:
         try:
@@ -83,9 +79,9 @@ def _extract_json_safely(text: str) -> dict:
         except json.JSONDecodeError:
             pass
     
-    # Try extracting first JSON object
-    json_pattern = r'\{.*\}'
-    match = re.search(json_pattern, text, re.DOTALL)
+    # Try extracting first JSON object (greedy to capture nested objects)
+    json_pattern = r'\{[\s\S]*\}'
+    match = re.search(json_pattern, text)
     
     if match:
         try:

@@ -5,7 +5,7 @@ import sys
 backend_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'backend')
 sys.path.insert(0, backend_path)
 
-from config import gemini_model
+from config import generate_content
 
 
 def socratic_viva(topic: str, previous_answer: str = None) -> str:
@@ -33,13 +33,4 @@ def socratic_viva(topic: str, previous_answer: str = None) -> str:
     )
 
     # Generate with low temperature for consistency
-    response = gemini_model.generate_content(
-        prompt,
-        generation_config={
-            "temperature": 0.4,
-            "top_p": 0.8,
-            "top_k": 40,
-        }
-    )
-
-    return response.text
+    return generate_content(prompt, temperature=0.4, top_p=0.8, top_k=40)

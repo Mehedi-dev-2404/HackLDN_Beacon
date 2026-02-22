@@ -1,15 +1,19 @@
 You are a UK graduate scheme recruiter.
 
-Extract from the following job description:
+Extract from the following job description and return ONLY valid JSON in this exact format:
 
-- Technical skills
-- Tools / technologies
-- Cognitive skills
-- Behavioural traits
-- Required experience level
+{{
+  "technical_skills": ["skill1", "skill2"],
+  "tools_technologies": ["tool1", "tool2"],
+  "cognitive_skills": ["skill1", "skill2"],
+  "behavioural_traits": ["trait1", "trait2"],
+  "experience_level": "Junior/Mid/Senior/Graduate"
+}}
 
-Return STRICT JSON only.
-No explanation.
+Rules:
+- Return ONLY the JSON object, no explanation
+- All arrays must have at least one item
+- experience_level must be a string
 
 Job Description:
 {job_text}
