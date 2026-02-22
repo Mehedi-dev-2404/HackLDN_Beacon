@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-import google.generativeai as genai
+from google import genai
 
 # Load environment variables from multiple possible locations
 # Try: 1) backend/.env, 2) parent directory (Mehedi/.env), 3) system env
@@ -19,6 +19,12 @@ else:
 GEMINI_KEY = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
 ELEVEN_KEY = os.getenv("ELEVEN_LABS_API_KEY")
 
+# Strip quotes if present (common .env issue)
+if GEMINI_KEY:
+    GEMINI_KEY = GEMINI_KEY.strip('"').strip("'")
+if ELEVEN_KEY:
+    ELEVEN_KEY = ELEVEN_KEY.strip('"').strip("'")
+
 # Validate keys early (fail fast)
 if not GEMINI_KEY:
     raise ValueError(
@@ -29,8 +35,33 @@ if not GEMINI_KEY:
 if not ELEVEN_KEY:
     raise ValueError("Missing ELEVEN_LABS_API_KEY in .env file")
 
-# Configure Gemini with API key
-genai.configure(api_key=GEMINI_KEY)
+# Initialize Gemini client using new google-genai SDK
+gemini_client = genai.Client(api_key=GEMINI_KEY)
 
-# Expose reusable Gemini model instance
-gemini_model = genai.GenerativeModel("models/gemini-1.5-pro-latest")
+# Default model to use
+DEFAULT_MODEL = "gemini-2.5-flash"
+
+
+def generate_content(prompt: str, temperature: float = 0.4, top_p: float = 0.8, top_k: int = 40) -> str:
+    """
+    Generate content using Gemini model.
+    
+    Args:
+        prompt: The prompt to send to the model
+        temperature: Sampling temperature (0.0-1.0)
+        top_p: Nucleus sampling parameter
+        top_k: Top-k sampling parameter
+        
+    Returns:
+        Generated text response
+    """
+    response = gemini_client.models.generate_content(
+        model=DEFAULT_MODEL,
+        contents=prompt,
+        config={
+            "temperature": temperature,
+            "top_p": top_p,
+            "top_k": top_k,
+        }
+    )
+    return response.text

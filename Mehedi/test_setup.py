@@ -14,7 +14,7 @@ print("🔍 Testing Aura Backend Components\n")
 # Test 1: Config and API keys
 print("1️⃣ Testing config and API keys...")
 try:
-    from backend.config import gemini_model, GEMINI_KEY, ELEVEN_KEY
+    from backend.config import generate_content, GEMINI_KEY, ELEVEN_KEY
     print("   ✅ Config loaded successfully")
     print(f"   ✅ GEMINI_KEY: {GEMINI_KEY[:10]}...")
     print(f"   ✅ ELEVEN_KEY: {ELEVEN_KEY[:10]}...")
