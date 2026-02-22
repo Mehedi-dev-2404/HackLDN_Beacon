@@ -13,7 +13,7 @@ An AI-powered student OS that combines Socratic tutoring, career preparation, an
 | Layer | Technology |
 |---|---|
 | Backend | FastAPI, Python |
-| Frontend | React 18, Vite |
+| Frontend | HTML, Tailwind CSS |
 | AI / LLM | Google Gemini 1.5 Pro |
 | Voice | ElevenLabs |
 | Database | MongoDB Atlas |
@@ -25,8 +25,8 @@ An AI-powered student OS that combines Socratic tutoring, career preparation, an
 cd myapp && pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
 
-# Terminal 2 — React frontend
-cd Tom && npm install && npm run dev
+# Terminal 2 — Open frontend
+# Open Mohammed/code.html in your browser
 ```
 
 Requires `myapp/.env` with `GEMINI_API_KEY`, `ELEVEN_LABS_API_KEY`, and `MONGO_URI`.
