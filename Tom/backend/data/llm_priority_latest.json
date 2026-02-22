@@ -1,0 +1,22 @@
+{
+  "ratedTasks": [
+    {
+      "id": "moodle-1",
+      "title": "No source provided",
+      "module": "General",
+      "dueAt": "2026-02-28T16:36:00.000Z",
+      "moduleWeightPercent": 47,
+      "priorityScore": 47,
+      "priorityBand": "low",
+      "reason": "Low priority due to a very far deadline (764 days from 2024-01-26), despite a moderate module weight (47%)."
+    }
+  ],
+  "summary": "One task was rated. Its very distant due date heavily penalized its priority, resulting in a low priority band.",
+  "provider": "gemini-direct",
+  "model": "gemini-2.5-flash",
+  "fallback": false,
+  "fallbackReason": null,
+  "source": "gemini-direct",
+  "generatedAt": "2026-02-22T10:56:44.372Z",
+  "filePath": "/Users/nguyencongkhanh/Documents/GitHub/HackLND_/Tom/backend/data/llm_priority_latest.json"
+}
