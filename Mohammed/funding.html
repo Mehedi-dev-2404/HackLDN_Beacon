@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Beacon AI - Available Funding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b6cee",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2b6cee44;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen flex">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 flex flex-col h-screen sticky top-0 bg-background-light dark:bg-background-dark">
+<div class="p-6 flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xl">blur_on</span>
+</div>
+<div>
+<h1 class="text-lg font-bold leading-none tracking-tight">Beacon AI</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">Student Dashboard</p>
+</div>
+</div>
+<nav class="flex-1 px-4 py-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" href="code.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" href="opportunities.html">
+<span class="material-symbols-outlined">work</span>
+<span class="text-sm font-medium">Jobs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" href="modulenotes.html">
+<span class="material-symbols-outlined">description</span>
+<span class="text-sm font-medium">Module Notes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-primary/10 text-primary rounded-lg transition-colors" href="funding.html">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-sm font-medium">Funding</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3 p-2">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border-2 border-primary/30">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="Cartoon avatar of a student named Alex" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7Pcps0doBKNKWksELLyvUZmety8S6WerUCnAf4NpL2nQEHK8OCFoZyYye4gwwNeNZaKOG0mgBmkJEEfuCFm-N__sRMoPa8Esqd3u-7ZWwWtJCUYHKMGWpcDUS9tz6ARC3fTYzBLAg1BoyM2gasTMUbiJAewI0w8pptKcFCw9iuVqt5sgUciVhU_TNGjucfYJ_vdKy88H3S1m5OYyYcElLGOXN-ZlvcoM2fx3eoMYLwIJ8lG6pq3xn8mfXSu93TsIKvI4QQl1Luonm"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold truncate">Alex (KCL CS Y2)</p>
+<p class="text-xs text-slate-500 truncate">alex.cs@kcl.ac.uk</p>
+</div>
+</div>
+<div class="mt-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-primary transition-colors" href="code.html">
+<span class="material-symbols-outlined text-xl">settings</span>
+<span class="text-xs font-medium">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-red-500 transition-colors" href="code.html">
+<span class="material-symbols-outlined text-xl">logout</span>
+<span class="text-xs font-medium">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden">
+<!-- Header Section -->
+<header class="p-8 pb-4">
+<div class="flex justify-between items-end mb-6">
+<div>
+<h2 class="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Available Funding</h2>
+<p class="text-slate-500 dark:text-slate-400 mt-1 font-medium">
+                        169 unis • 768 jobs • £3.4k funding
+                    </p>
+</div>
+<div class="flex gap-3">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="pl-10 pr-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-primary focus:border-primary w-64" placeholder="Search providers..." type="text"/>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-sm font-semibold transition-colors">
+<span class="material-symbols-outlined text-lg">tune</span>
+                        Filter
+                    </button>
+</div>
+</div>
+<!-- Tabs -->
+<div class="flex border-b border-slate-200 dark:border-slate-800 gap-8">
+<button class="px-1 py-4 text-sm font-bold border-b-2 border-primary text-primary">All Grants</button>
+<button class="px-1 py-4 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors">Scholarships</button>
+<button class="px-1 py-4 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors">Bursaries</button>
+<button class="px-1 py-4 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors">Disability Support</button>
+</div>
+</header>
+<!-- Scrollable Area -->
+<div class="flex-1 overflow-hidden flex">
+<!-- Funding Cards Feed -->
+<section class="flex-1 overflow-y-auto p-8 pt-4 custom-scrollbar space-y-4">
+<!-- Card 1 -->
+<div class="group bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-5 flex gap-6 hover:border-primary/50 transition-all cursor-pointer">
+<div class="flex-1">
+<div class="flex items-start justify-between mb-2">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">Disabled Students Allowance (DSA)</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400">Student Finance England</p>
+</div>
+<span class="px-3 py-1 bg-green-500/10 text-green-500 text-xs font-bold rounded-full border border-green-500/20 uppercase tracking-wider">Eligible</span>
+</div>
+<div class="flex items-center gap-4 mt-4">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Max Funding</span>
+<span class="text-lg font-black text-primary">£25,000+</span>
+</div>
+<div class="h-8 w-px bg-slate-200 dark:bg-slate-800"></div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Deadline</span>
+<span class="text-sm font-medium">Rolling Basis</span>
+</div>
+</div>
+<div class="mt-6 flex gap-3">
+<button class="px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-primary/90 transition-colors">Apply Now</button>
+<button class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-bold rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">Save for Later</button>
+</div>
+</div>
+<div class="w-32 flex flex-col items-center justify-center border-l border-slate-100 dark:border-slate-800 pl-6">
+<div class="relative w-20 h-20 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-slate-200 dark:text-slate-800" cx="40" cy="40" fill="transparent" r="36" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-primary" cx="40" cy="40" fill="transparent" r="36" stroke="currentColor" stroke-dasharray="226.19" stroke-dashoffset="4.5" stroke-width="6"></circle>
+</svg>
+<span class="absolute text-xl font-black">98%</span>
+</div>
+<p class="text-[10px] uppercase font-bold text-primary mt-2 tracking-tighter">Beacon Match</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-5 flex gap-6 hover:border-primary/50 transition-all cursor-pointer">
+<div class="flex-1">
+<div class="flex items-start justify-between mb-2">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">STEM Excellence Scholarship</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400">King's College London</p>
+</div>
+<span class="px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full border border-primary/20 uppercase tracking-wider">High Match</span>
+</div>
+<div class="flex items-center gap-4 mt-4">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Max Funding</span>
+<span class="text-lg font-black text-primary">£2,000</span>
+</div>
+<div class="h-8 w-px bg-slate-200 dark:bg-slate-800"></div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Type</span>
+<span class="text-sm font-medium">Merit-Based</span>
+</div>
+</div>
+<div class="mt-6 flex gap-3">
+<button class="px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-primary/90 transition-colors">View Details</button>
+</div>
+</div>
+<div class="w-32 flex flex-col items-center justify-center border-l border-slate-100 dark:border-slate-800 pl-6">
+<div class="relative w-20 h-20 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-slate-200 dark:text-slate-800" cx="40" cy="40" fill="transparent" r="36" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-primary" cx="40" cy="40" fill="transparent" r="36" stroke="currentColor" stroke-dasharray="226.19" stroke-dashoffset="18" stroke-width="6"></circle>
+</svg>
+<span class="absolute text-xl font-black">92%</span>
+</div>
+<p class="text-[10px] uppercase font-bold text-primary mt-2 tracking-tighter">Beacon Match</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-5 flex gap-6 hover:border-primary/50 transition-all cursor-pointer">
+<div class="flex-1">
+<div class="flex items-start justify-between mb-2">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">KCL Student Hardship Fund</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400">King's College London</p>
+</div>
+<span class="px-3 py-1 bg-amber-500/10 text-amber-500 text-xs font-bold rounded-full border border-amber-500/20 uppercase tracking-wider">Review Needed</span>
+</div>
+<div class="flex items-center gap-4 mt-4">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Max Funding</span>
+<span class="text-lg font-black text-primary">£3,500</span>
+</div>
+<div class="h-8 w-px bg-slate-200 dark:bg-slate-800"></div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Evidence</span>
+<span class="text-sm font-medium">Bank Statements</span>
+</div>
+</div>
+<div class="mt-6 flex gap-3">
+<button class="px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-primary/90 transition-colors">Start Assessment</button>
+</div>
+</div>
+<div class="w-32 flex flex-col items-center justify-center border-l border-slate-100 dark:border-slate-800 pl-6">
+<div class="relative w-20 h-20 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-slate-200 dark:text-slate-800" cx="40" cy="40" fill="transparent" r="36" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-primary" cx="40" cy="40" fill="transparent" r="36" stroke="currentColor" stroke-dasharray="226.19" stroke-dashoffset="34" stroke-width="6"></circle>
+</svg>
+<span class="absolute text-xl font-black">85%</span>
+</div>
+<p class="text-[10px] uppercase font-bold text-primary mt-2 tracking-tighter">Beacon Match</p>
+</div>
+</div>
+<!-- Abstract Footer Image -->
+<div class="w-full h-32 rounded-xl bg-gradient-to-r from-primary/10 to-transparent flex items-center px-8 border border-primary/5">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-4xl text-primary/40">auto_awesome</span>
+<div>
+<p class="text-sm font-semibold opacity-80">Searching more opportunities...</p>
+<p class="text-xs opacity-50">Beacon AI is scanning 50+ new regional grants updated this morning.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Insights Sidebar -->
+<aside class="w-80 border-l border-slate-200 dark:border-slate-800 p-6 overflow-y-auto bg-slate-50 dark:bg-slate-900/20">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary">psychology</span>
+<h4 class="text-sm font-bold uppercase tracking-widest">AI Insights</h4>
+</div>
+<div class="space-y-6">
+<!-- Insight 1 -->
+<div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-green-500 text-lg">check_circle</span>
+<h5 class="text-xs font-bold text-slate-700 dark:text-slate-200">Disability Confirmation</h5>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                            Your profile status confirms eligibility for <span class="text-slate-900 dark:text-white font-semibold">Disabled Students Allowance (DSA)</span>. This provides up to £25k for specialized equipment and travel.
+                        </p>
+</div>
+<!-- Insight 2 -->
+<div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-lg">trending_up</span>
+<h5 class="text-xs font-bold text-slate-700 dark:text-slate-200">Academic Merit</h5>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                            Based on your <span class="text-slate-900 dark:text-white font-semibold">Y1 results (First Class)</span>, you qualify for the KCL Excellence awards. We recommend applying before the Sept 15th deadline.
+                        </p>
+</div>
+<!-- Insight 3 -->
+<div class="p-4 bg-primary/5 border border-primary/20 rounded-xl">
+<h5 class="text-xs font-bold text-primary mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">lightbulb</span>
+                            Quick Tip
+                        </h5>
+<p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed italic">
+                            "Alex, combining your DSA equipment grant with the KCL hardship fund could cover 100% of your tech costs this year."
+                        </p>
+</div>
+<!-- Proactive match card -->
+<div class="relative overflow-hidden group p-4 rounded-xl bg-slate-900 text-white">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl">rocket_launch</span>
+</div>
+<h5 class="text-sm font-bold mb-1 relative z-10">Increase Match?</h5>
+<p class="text-xs text-slate-400 mb-4 relative z-10">Upload your latest transcript to unlock 4 more scholarships.</p>
+<button class="w-full py-2 bg-white text-slate-900 text-xs font-black rounded-lg relative z-10">Upload Transcript</button>
+</div>
+</div>
+<!-- Placeholder graphic for contextual visualization -->
+<div class="mt-8 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-800 h-32 bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
+<div class="w-full h-full opacity-30 bg-cover bg-center" data-alt="Abstract visualization of funding match data points" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAq1n9KCGsRJmJPhCFSYBIqDXkB0wowx2jiuzmKqbwy3L2-t73M-j2cpX_D8bgxN0qauytDZUIAXoqYpSjaYaua7xRHJ17w7z8eH_JSeslv_IaNVYuwXGWz2JAIgIeGVlbVUo-PnFWdG1XelQtKP_QURx97AjipdIaXHaXS7dN9Mg0lOp-VTam1KZMeyi3-JOA6MW7hijSP4eVbRUtkeO2P6qu-vWd0Ox4QkoINZ98RGhy0No4DLf-phpgE4aMNqpEA8WO2ASbE6eyH');"></div>
+</div>
+</aside>
+</div>
+</main>
+</body></html>

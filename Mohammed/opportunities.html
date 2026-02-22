@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Beacon - Tailored Jobs Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b6cee",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex h-full w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Navigation Header -->
+<header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 px-6 py-4 bg-background-light dark:bg-background-dark/80 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary">
+<div class="size-8 flex items-center justify-center rounded-lg bg-primary/10">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold tracking-tight">Beacon</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="code.html">Dashboard</a>
+<a class="text-primary text-sm font-bold border-b-2 border-primary pb-1" href="opportunities.html">Jobs</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="opportunities.html">Applications</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="profile.html">Profile</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="size-9 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="Student profile avatar placeholder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4dx8Qjwfsu04GCxJG7HrEyjnvE8X4sOU_-aj9-xs19kGvCJANqpOeHG0Cx1B1ItWwJHxV9xAvgXVQH5ciDbWbQJkj01onEKvJf4XoTWQ9qNKDB3T8U2_le317CMFOWbvo_xp54vwN6VRPjPIX7WQgQd7ZFyjpaI_O1ENDh3W3gg8Tkz6s0atPMG-ylzzgLEcNdK3ocMxm2FxZSXIwZwrBfHiq1SLw0p5-SGcGbsH1kBetHOF3QOai3GyfORh8EsrKAOfYo7AeWfIN"/>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col max-w-7xl w-full mx-auto px-6 py-8">
+<!-- Hero Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-8">
+<div class="flex flex-col gap-2">
+<h1 class="text-4xl font-black text-slate-900 dark:text-white tracking-tight">Tailored Jobs</h1>
+<p class="text-slate-500 dark:text-slate-400 text-lg">AI-curated opportunities for your profile <span class="text-primary font-semibold">(KCL CS Y2)</span></p>
+</div>
+<a class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-sm font-bold hover:bg-slate-300 dark:hover:bg-slate-700 transition-all" href="code.html">
+<span class="material-symbols-outlined text-lg">arrow_back</span>
+                        Back to Dashboard
+                    </a>
+</div>
+<!-- Filters & Search -->
+<div class="flex flex-col gap-6">
+<div class="flex flex-col lg:flex-row gap-4 justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-2">
+<div class="flex items-center gap-2 overflow-x-auto w-full lg:w-auto pb-2 lg:pb-0 no-scrollbar">
+<button class="px-5 py-2 rounded-full bg-primary text-white text-sm font-bold whitespace-nowrap">All Matches</button>
+<button class="px-5 py-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 text-sm font-bold transition-all whitespace-nowrap">Summer Internships</button>
+<button class="px-5 py-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 text-sm font-bold transition-all whitespace-nowrap">Industrial Placements</button>
+<button class="px-5 py-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 text-sm font-bold transition-all whitespace-nowrap">Graduate Schemes</button>
+</div>
+<div class="relative w-full lg:w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border-none focus:ring-2 focus:ring-primary text-slate-900 dark:text-white placeholder:text-slate-500" placeholder="Search by role, company or tech stack..." type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Job List Area -->
+<div class="lg:col-span-8 flex flex-col gap-4">
+<h3 class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Recommended for you</h3>
+<!-- Card 1: Morgan Stanley -->
+<div class="group bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:border-primary/50 transition-all flex flex-col sm:flex-row gap-6">
+<div class="size-16 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center p-2">
+<div class="w-full h-full bg-slate-300 dark:bg-slate-700 rounded flex items-center justify-center" data-alt="Morgan Stanley Corporate Logo Placeholder">MS</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="text-xl font-bold dark:text-white">Technology Analyst Internship</h4>
+<div class="flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-black tracking-tight">
+<span class="material-symbols-outlined text-sm">target</span>
+                                            94% MATCH
+                                        </div>
+</div>
+<p class="text-slate-600 dark:text-slate-400 font-medium mb-4">Morgan Stanley • Summer Internship</p>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-lg">location_on</span>
+                                            London
+                                        </div>
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-lg">calendar_today</span>
+                                            Opens: Sept
+                                        </div>
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-lg">event_busy</span>
+                                            Closes: Oct
+                                        </div>
+</div>
+<div class="flex items-center gap-3">
+<a href="https://morganstanley.tal.net/vx/lang-en-GB/mobile-0/brand-2/user-7803981/xf-dd9cde5f40fb/candidate/so/pm/1/pl/1/opp/18442-2025-Technology-Summer-Analyst-Program-Application-Development-Glasgow/en-GB" class="px-6 py-2 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-all">Apply Now</a>
+<button class="px-6 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">Details</button>
+</div>
+</div>
+</div>
+<!-- Card 2: Goldman Sachs (Urgent) -->
+<div class="group bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 border-l-4 border-l-red-500 hover:border-primary/50 transition-all flex flex-col sm:flex-row gap-6">
+<div class="size-16 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center p-2">
+<div class="w-full h-full bg-slate-300 dark:bg-slate-700 rounded flex items-center justify-center" data-alt="Goldman Sachs Corporate Logo Placeholder">GS</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<div class="flex items-center gap-3">
+<h4 class="text-xl font-bold dark:text-white">Engineering Summer Analyst</h4>
+<span class="px-2 py-0.5 rounded bg-red-500/10 text-red-500 text-[10px] font-black uppercase tracking-widest">Urgent</span>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-black tracking-tight">
+<span class="material-symbols-outlined text-sm">target</span>
+                                            92% MATCH
+                                        </div>
+</div>
+<p class="text-slate-600 dark:text-slate-400 font-medium mb-4">Goldman Sachs • Summer Internship</p>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-lg">location_on</span>
+                                            London
+                                        </div>
+<div class="flex items-center gap-2 text-red-500 font-bold text-sm">
+<span class="material-symbols-outlined text-lg">priority_high</span>
+                                            Closes Tomorrow!
+                                        </div>
+</div>
+<div class="flex items-center gap-3">
+<a href="opportunities.html" class="px-6 py-2 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-all">Apply Now</a>
+<button class="px-6 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">Details</button>
+</div>
+</div>
+</div>
+<!-- Card 3: Google -->
+<div class="group bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:border-primary/50 transition-all flex flex-col sm:flex-row gap-6">
+<div class="size-16 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center p-2">
+<div class="w-full h-full bg-slate-300 dark:bg-slate-700 rounded flex items-center justify-center" data-alt="Google Corporate Logo Placeholder">G</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="text-xl font-bold dark:text-white">Software Engineering Intern</h4>
+<div class="flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-black tracking-tight">
+<span class="material-symbols-outlined text-sm">target</span>
+                                            89% MATCH
+                                        </div>
+</div>
+<p class="text-slate-600 dark:text-slate-400 font-medium mb-4">Google • Industrial Placement</p>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-lg">location_on</span>
+                                            Zurich/London
+                                        </div>
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-lg">calendar_today</span>
+                                            Opens: Aug
+                                        </div>
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-lg">event_busy</span>
+                                            Closes: Nov
+                                        </div>
+</div>
+<div class="flex items-center gap-3">
+<a href="opportunities.html" class="px-6 py-2 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-all">Apply Now</a>
+<button class="px-6 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">Details</button>
+</div>
+</div>
+</div>
+<!-- Card 4: Bloomberg -->
+<div class="group bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:border-primary/50 transition-all flex flex-col sm:flex-row gap-6">
+<div class="size-16 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center p-2">
+<div class="w-full h-full bg-slate-300 dark:bg-slate-700 rounded flex items-center justify-center" data-alt="Bloomberg Corporate Logo Placeholder">BBG</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="text-xl font-bold dark:text-white">Software Engineer</h4>
+<div class="flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-black tracking-tight">
+<span class="material-symbols-outlined text-sm">target</span>
+                                            85% MATCH
+                                        </div>
+</div>
+<p class="text-slate-600 dark:text-slate-400 font-medium mb-4">Bloomberg • Graduate Scheme</p>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-lg">location_on</span>
+                                            London
+                                        </div>
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-lg">timeline</span>
+                                            Future Option
+                                        </div>
+</div>
+<div class="flex items-center gap-3">
+<a href="opportunities.html" class="px-6 py-2 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-all">Apply Now</a>
+<button class="px-6 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">Details</button>
+</div>
+</div>
+</div>
+<!-- Card 5: J.P. Morgan -->
+<div class="group bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:border-primary/50 transition-all flex flex-col sm:flex-row gap-6">
+<div class="size-16 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center p-2">
+<div class="w-full h-full bg-slate-300 dark:bg-slate-700 rounded flex items-center justify-center" data-alt="J.P. Morgan Corporate Logo Placeholder">JPM</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="text-xl font-bold dark:text-white">AI Research Intern</h4>
+<div class="flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-black tracking-tight">
+<span class="material-symbols-outlined text-sm">target</span>
+                                            91% MATCH
+                                        </div>
+</div>
+<p class="text-slate-600 dark:text-slate-400 font-medium mb-4">J.P. Morgan • Summer Internship</p>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-lg">location_on</span>
+                                            London/Remote
+                                        </div>
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-lg">trending_up</span>
+                                            High Growth
+                                        </div>
+</div>
+<div class="flex items-center gap-3">
+<a href="opportunities.html" class="px-6 py-2 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-all">Apply Now</a>
+<button class="px-6 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">Details</button>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Insights Sidebar -->
+<aside class="lg:col-span-4 flex flex-col gap-6">
+<div class="bg-primary/5 border border-primary/20 rounded-2xl p-6 sticky top-24">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary">psychology</span>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Beacon AI Insights</h3>
+</div>
+<p class="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed">
+                                    I've analyzed your profile and previous internship interests to find these specific roles. Here's why they were picked:
+                                </p>
+<ul class="flex flex-col gap-4">
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-sm mt-1">check_circle</span>
+<div>
+<p class="text-slate-900 dark:text-slate-200 text-sm font-bold">FinTech Alignment</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Matches your interest in investment banking technology and high-frequency trading.</p>
+</div>
+</li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-sm mt-1">check_circle</span>
+<div>
+<p class="text-slate-900 dark:text-slate-200 text-sm font-bold">Python Proficiency</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs">These roles heavily list Python, which is your top-rated skill from Year 1 modules.</p>
+</div>
+</li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-sm mt-1">check_circle</span>
+<div>
+<p class="text-slate-900 dark:text-slate-200 text-sm font-bold">Location Preference</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Focused on London-based roles to align with your university proximity.</p>
+</div>
+</li>
+</ul>
+<div class="mt-8 pt-6 border-t border-primary/10">
+<button class="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-white dark:bg-slate-800 text-primary text-sm font-bold border border-primary/30 hover:bg-primary/5 transition-all">
+<span class="material-symbols-outlined text-lg">tune</span>
+                                        Adjust AI Preferences
+                                    </button>
+</div>
+</div>
+<div class="bg-slate-100 dark:bg-slate-900/30 rounded-2xl p-6 border border-slate-200 dark:border-slate-800">
+<h4 class="text-sm font-bold text-slate-900 dark:text-white mb-4">Application Progress</h4>
+<div class="flex flex-col gap-4">
+<div class="flex justify-between text-xs font-bold mb-1">
+<span class="text-slate-500">Target for Q4</span>
+<span class="text-primary">3 / 5 Applied</span>
+</div>
+<div class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[60%]"></div>
+</div>
+<p class="text-[11px] text-slate-500 leading-tight">
+                                        Applying to at least 2 more roles this month increases your chance of an offer by 40%.
+                                    </p>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<!-- Simple Footer -->
+<footer class="mt-12 py-12 border-t border-slate-200 dark:border-slate-800 px-6 text-center">
+<p class="text-slate-500 text-sm">Beacon AI Assistant © 2024. All rights reserved. Helping you find your next career step.</p>
+</footer>
+</div>
+</div>
+</body></html>

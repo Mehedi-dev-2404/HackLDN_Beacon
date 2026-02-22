@@ -110,11 +110,11 @@ def get_settings() -> Settings:
 
     ui_default = repo_root / "Mohammed" / "code.html"
 
-    jobs_db_name = os.getenv("JOBS_DB_NAME", os.getenv("DB_NAME", "aura_jobs"))
-    tasks_db_name = os.getenv("TASKS_DB_NAME", "aura_tasks")
+    jobs_db_name = os.getenv("JOBS_DB_NAME", os.getenv("DB_NAME", "beacon_jobs"))
+    tasks_db_name = os.getenv("TASKS_DB_NAME", "beacon_tasks")
 
     settings = Settings(
-        app_name=os.getenv("APP_NAME", "Aura API"),
+        app_name=os.getenv("APP_NAME", "Beacon API"),
         app_version=os.getenv("APP_VERSION", "0.1.0"),
         environment=os.getenv("APP_ENV", "development"),
         gemini_api_key=os.getenv("GEMINI_API_KEY", ""),

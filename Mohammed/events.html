@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Beacon | Upcoming Events</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b6cee",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2b6cee33;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 flex-shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111318] flex flex-col">
+<div class="p-6">
+<div class="flex items-center gap-3 mb-8">
+<div class="bg-primary rounded-lg p-2 text-white flex items-center justify-center">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight">Beacon</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">University AI Dashboard</p>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="code.html">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="opportunities.html">
+<span class="material-symbols-outlined text-[20px]">work</span>
+<span class="text-sm font-medium">Jobs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="modulenotes.html">
+<span class="material-symbols-outlined text-[20px]">description</span>
+<span class="text-sm font-medium">Module Notes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="funding.html">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span class="text-sm font-medium">Funding</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary transition-colors" href="events.html">
+<span class="material-symbols-outlined text-[20px] fill-current">calendar_today</span>
+<span class="text-sm font-semibold">Events</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto p-6 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Student profile headshot photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3RFhh-LMiQS5L4SQP279swhPHWL6O90hFKPohmAhnKNvagjc1bH6Lxp-yZZP_1wBDLpkojelE3FGw2lZ4HeJdlFnWHBS9UUw51Bx1o6PH3gNjkTpnRN7AR0XxtGfbu2W9TqQO0PY_CYA-2-3CR-qNTArJcv2GhD9mNRRgIJzNe2Jl6SBf5wg5EEmJfCfp4BKwhCm5obk3ye1fC4qeXDw659HM2NGEDh7oU281_xXUQ4_84etQh0ttUHt_jhGNsH64c_GJp0DycmxU"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold truncate">Alex Chen</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 truncate">KCL CS Y2</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-full overflow-hidden">
+<!-- Header -->
+<header class="p-8 pb-4">
+<div class="flex items-start justify-between">
+<div>
+<h2 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Upcoming Events</h2>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Curated for your profile (KCL CS Y2)</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="p-2 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+</div>
+<!-- Filter Tabs -->
+<div class="mt-8 flex items-center gap-1 border-b border-slate-200 dark:border-slate-800 overflow-x-auto custom-scrollbar whitespace-nowrap">
+<button class="px-4 py-3 text-sm font-semibold border-b-2 border-primary text-primary">All Events</button>
+<button class="px-4 py-3 text-sm font-medium text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors">Hackathons</button>
+<button class="px-4 py-3 text-sm font-medium text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors">Workshops</button>
+<button class="px-4 py-3 text-sm font-medium text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors">Networking</button>
+<button class="px-4 py-3 text-sm font-medium text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors">Tech Talks</button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-8 pt-4">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+<!-- Events List (Left 2 columns on large) -->
+<div class="lg:col-span-2 space-y-6">
+<!-- Event Card 1 -->
+<div class="bg-white dark:bg-[#1c1f27] rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition-all">
+<div class="md:flex">
+<div class="md:w-56 h-48 md:h-auto bg-cover bg-center" data-alt="Modern tech office with computers and blue lighting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzeC3SkF90d6NvcGJ0Yn6tETBCvlDUiFOOuW-CjuUtPQe-65r0PQmYnuBsKppqA04jgLqgIeN3Nj_nrHQNq3tUJAdGTfhDKE9qxjp-c1Q8-THkXmFQU8RedRucTdnLiaih5pizRgnELp1HXnbRK_QCeDc5Qit06TXHwxttJ5k4nwcdbE88A7kvovpPzjElSoDCgOCD79PrmFgvaVP7kIklk9tLfW9OUbu0M7oUNTzpFLCD_kGTCU8Q1T2ICgCRzIa1hV1S6kv_qH8n')"></div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">Hackathon</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">96% Match</span>
+</div>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+</div>
+<h3 class="text-xl font-bold mb-3">HackLDN 2026</h3>
+<div class="space-y-1 mb-6">
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-sm">calendar_month</span>
+<span>Oct 24, 2024 • 10:00 AM</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Bush House, Strand Campus</span>
+</div>
+</div>
+<div class="mt-auto flex gap-3">
+<a href="https://hl26.kcltech.co.uk/?utm_source=mlh&utm_medium=referral&utm_campaign=season_events&utm_content=HackLondon" class="bg-primary hover:bg-primary/90 text-white text-sm font-semibold px-6 py-2 rounded-lg transition-all flex-1">Register Now</a>
+<button class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all">View Details</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Event Card 2 -->
+<div class="bg-white dark:bg-[#1c1f27] rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition-all">
+<div class="md:flex">
+<div class="md:w-56 h-48 md:h-auto bg-cover bg-center" data-alt="Blue servers in a cloud computing data center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDQWwmZ2FOqHdhfz_bBfiIvT-R5Tamf3hVKUke49AngDeG1YW-CrBxXDR55Dyx6LqhjCaqv9Zh3ipNubMuvcKBywMEtq74g1l-6M29bMFicShVqSPSl6EwLX1-Oz6F4N1qZ56QPaWxxB7PzEa_tRZoMZbn-RipDNCeyNl3RT1LuMb6i_O3-WDgng3Ntz3uT1iechxLn3C5-r9uaWTxP8dg0K0bxMT0NgBplS2zARlSY-O2nCkETLUvgVf_wiTE7Stny4wcIFdd1LLK3')"></div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-blue-500/10 text-blue-500 border border-blue-500/20">Workshop</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">92% Match</span>
+</div>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+</div>
+<h3 class="text-xl font-bold mb-3">Google Cloud Workshop</h3>
+<div class="space-y-1 mb-6">
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-sm">videocam</span>
+<span>Oct 26, 2024 • 2:00 PM</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-sm">public</span>
+<span>Online</span>
+</div>
+</div>
+<div class="mt-auto flex gap-3">
+<button class="bg-primary hover:bg-primary/90 text-white text-sm font-semibold px-6 py-2 rounded-lg transition-all flex-1">Register Now</button>
+<button class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all">View Details</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Event Card 3 -->
+<div class="bg-white dark:bg-[#1c1f27] rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition-all">
+<div class="md:flex">
+<div class="md:w-56 h-48 md:h-auto bg-cover bg-center" data-alt="People talking at a networking corporate event" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBoGr9JA82AvyRychRP42hdXF4lVqIMiR5JFhQS8G_OVw91BpbWEvhz9yICN3vZfBDCHAvdaOkOMrLX3mP4lqzLIcUvmh4MaU57n8CmEWkeZNcOgDDy_1YUJkecOktnhbcz_Zph_zP58FRp_iDnbsKSrD3neJTN7sYrZHqb8TBHGuKJET8XHYgLCpNaddE004a5rWuRE2GbP1KZP_Os54IncU7nmQYrzDeC8wCuboxUS5bD642hPGDI2hSte5bor1mE_234_7s4ek7_')"></div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-purple-500/10 text-purple-500 border border-purple-500/20">Networking</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-500 border border-amber-500/20">88% Match</span>
+</div>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+</div>
+<h3 class="text-xl font-bold mb-3">FinTech Networking Mixer</h3>
+<div class="space-y-1 mb-6">
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-sm">calendar_month</span>
+<span>Nov 02, 2024 • 6:30 PM</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Level 39, Canary Wharf</span>
+</div>
+</div>
+<div class="mt-auto flex gap-3">
+<button class="bg-primary hover:bg-primary/90 text-white text-sm font-semibold px-6 py-2 rounded-lg transition-all flex-1">Register Now</button>
+<button class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all">View Details</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Insights Sidebar (Right col on large) -->
+<div class="lg:col-span-1 space-y-6">
+<div class="bg-white dark:bg-[#1c1f27] border border-slate-200 dark:border-slate-800 rounded-xl p-6">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary">psychology</span>
+<h3 class="text-lg font-bold">Beacon AI Insights</h3>
+</div>
+<div class="space-y-6">
+<!-- Insight 1 -->
+<div class="relative pl-4 border-l-2 border-primary/30">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-xs text-primary bg-primary/10 rounded-full p-1">trending_up</span>
+<span class="text-xs font-bold text-primary uppercase tracking-wider">Skill Gap Filler</span>
+</div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white mb-1">Cloud Computing Mastery</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">The Google Cloud Workshop fills a 'Data Engineering' gap identified in your current skill profile for target Y3 internships.</p>
+</div>
+<!-- Insight 2 -->
+<div class="relative pl-4 border-l-2 border-primary/30">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-xs text-primary bg-primary/10 rounded-full p-1">group</span>
+<span class="text-xs font-bold text-primary uppercase tracking-wider">Networking Opportunity</span>
+</div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white mb-1">Goldman Sachs Alumni</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">5 KCL Alumni currently at Goldman Sachs (your top target company) are attending the FinTech Mixer.</p>
+</div>
+<!-- Insight 3 -->
+<div class="relative pl-4 border-l-2 border-primary/30">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-xs text-primary bg-primary/10 rounded-full p-1">rocket_launch</span>
+<span class="text-xs font-bold text-primary uppercase tracking-wider">Project Booster</span>
+</div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white mb-1">Portfolio Expansion</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Participating in HackLDN will provide a tangible full-stack project to showcase your React skills on your CV.</p>
+</div>
+</div>
+<button class="w-full mt-8 py-2.5 px-4 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors uppercase tracking-widest">
+                                Re-analyze Profile
+                            </button>
+</div>
+<!-- Calendar Summary -->
+<div class="bg-gradient-to-br from-primary to-blue-700 rounded-xl p-6 text-white overflow-hidden relative">
+<div class="relative z-10">
+<h4 class="text-lg font-bold mb-1">Your Schedule</h4>
+<p class="text-blue-100 text-sm mb-4">2 events saved for this week</p>
+<div class="bg-white/10 backdrop-blur-md rounded-lg p-3 border border-white/20 mb-3">
+<p class="text-[10px] font-bold uppercase opacity-70">Tomorrow</p>
+<p class="text-sm font-semibold">AI Seminar: Ethics in 2024</p>
+</div>
+<button class="w-full py-2 bg-white text-primary text-xs font-bold rounded-lg transition-colors">Open Calendar</button>
+</div>
+<span class="material-symbols-outlined absolute -right-6 -bottom-6 text-9xl opacity-10">calendar_today</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

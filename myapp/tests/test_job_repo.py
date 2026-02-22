@@ -44,7 +44,7 @@ def test_job_repo_upsert_and_list_are_deterministic() -> None:
     fake_collection = _FakeCollection()
     repo = JobRepository(
         mongo_uri="mongodb://localhost:27017",
-        db_name="aura_test",
+        db_name="beacon_test",
         collection=fake_collection,
     )
 

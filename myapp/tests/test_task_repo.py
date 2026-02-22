@@ -45,7 +45,7 @@ def test_task_repo_upsert_and_list_are_deterministic() -> None:
     fake_collection = _FakeCollection()
     repo = TaskRepository(
         mongo_uri="mongodb://localhost:27017",
-        db_name="aura_tasks_test",
+        db_name="beacon_tasks_test",
         collection=fake_collection,
     )
 

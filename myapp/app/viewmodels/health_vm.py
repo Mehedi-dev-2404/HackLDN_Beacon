@@ -46,7 +46,7 @@ def build_ui_shell() -> str:
 <head>
   <meta charset='utf-8' />
   <meta name='viewport' content='width=device-width, initial-scale=1' />
-  <title>Aura Panel</title>
+  <title>Beacon Panel</title>
   <style>
     body {{ margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0f172a; }}
     .layout {{ display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }}
@@ -67,7 +67,7 @@ def build_ui_shell() -> str:
 <body>
   <div class='layout'>
     <aside class='sidebar'>
-      <h1>Aura Page Switcher</h1>
+      <h1>Beacon Page Switcher</h1>
       {buttons}
       <div class='quick-links'>
         <a href='/docs' target='_blank' rel='noreferrer'>Open API Docs</a>

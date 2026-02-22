@@ -1,2 +1,2 @@
-# HackLND_
+# HackLDN
 This is the repo for the hacklondon team
