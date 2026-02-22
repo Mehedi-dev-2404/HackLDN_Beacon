@@ -4,7 +4,7 @@ AI as a study partner
 
 [INITIAL](https://www.notion.so/INITIAL-30e14f0e855c80609e44fde1c2152f86?pvs=21)
 
-# 🇬🇧 Project: Aura — The Adaptive Student OS (UK Edition)
+# 🇬🇧 Project: Beacon — The Adaptive Student OS (UK Edition)
 
 **Tagline:** The AI Chief-of-Staff for the UK Student. From Moodle to Graduate Schemes.
 
@@ -17,7 +17,7 @@ AI as a study partner
 
 ## 🟢 The Solution
 
-Aura is a **biometric-aware OS** that synchronizes your UK academic life with the national career calendar. It uses the **Socratic Mirror** to act as a "tutor" that complies with UK academic integrity standards by fostering genuine understanding.
+Beacon is a **biometric-aware OS** that synchronizes your UK academic life with the national career calendar. It uses the **Socratic Mirror** to act as a "tutor" that complies with UK academic integrity standards by fostering genuine understanding.
 
 ---
 
@@ -25,7 +25,7 @@ Aura is a **biometric-aware OS** that synchronizes your UK academic life with th
 
 ### 1. The "Grad Scheme" CRM (Career & Career)
 
-- **Bright Network & TargetJobs Integration:** Aura auto-syncs with major UK internship deadlines. If an **HSBC Summer Internship** closes on Feb 22nd, Aura moves your LeetCode prep for that role to the top of your feed.
+- **Bright Network & TargetJobs Integration:** Beacon auto-syncs with major UK internship deadlines. If an **HSBC Summer Internship** closes on Feb 22nd, Beacon moves your LeetCode prep for that role to the top of your feed.
 - **UCAS to CV Bridge:** For first-years, Aura helps translate A-Level achievements into a first-year "Spring Week" ready CV.
 
 ### 2. The Socratic Mirror (Russell Group Compliant Learning)

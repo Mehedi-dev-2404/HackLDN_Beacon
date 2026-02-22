@@ -91,6 +91,23 @@ function daysUntil(dueAt) {
   return Math.ceil((due - now) / (1000 * 60 * 60 * 24));
 }
 
+function randomInt(min, max) {
+  const floorMin = Math.ceil(min);
+  const floorMax = Math.floor(max);
+  return Math.floor(Math.random() * (floorMax - floorMin + 1)) + floorMin;
+}
+
+function randomFutureIso({
+  minDays = 1,
+  maxDays = 30,
+  hourUtc = 16
+} = {}) {
+  const date = new Date();
+  date.setUTCDate(date.getUTCDate() + randomInt(minDays, maxDays));
+  date.setUTCHours(hourUtc, randomInt(0, 45), 0, 0);
+  return date.toISOString();
+}
+
 function sanitizeTasksForPriority(tasks) {
   if (!Array.isArray(tasks)) return [];
 
@@ -284,28 +301,28 @@ export async function runMoodleSync({ baseUrl, moodleHtml }) {
         {
           title: "Reviewing econometrics",
           module: "Macroeconomics Essay",
-          dueAt: "2026-03-24T16:00:00Z",
+          dueAt: randomFutureIso({ minDays: 10, maxDays: 35 }),
           moduleWeightPercent: 20,
           estimatedHours: 4
         },
         {
           title: "Apple essay",
           module: "Business Essay",
-          dueAt: "2026-02-23T16:00:00Z",
+          dueAt: randomFutureIso({ minDays: 2, maxDays: 14 }),
           moduleWeightPercent: 40,
           estimatedHours: 8
         },
         {
           title: "Mathingy",
           module: "Math",
-          dueAt: "2026-02-25T16:00:00Z",
+          dueAt: randomFutureIso({ minDays: 3, maxDays: 16 }),
           moduleWeightPercent: 30,
           estimatedHours: 5
         },
         {
           title: "Badminton Training",
           module: "Sport",
-          dueAt: "2026-02-26T16:00:00Z",
+          dueAt: randomFutureIso({ minDays: 4, maxDays: 18 }),
           moduleWeightPercent: 10,
           estimatedHours: 2
         }
@@ -357,12 +374,14 @@ export async function runCleanAndMap({ baseUrl, moodleData, careerData }) {
           title: "Finish Macroeconomics assignment",
           owner: "student",
           kind: "coursework",
+          deadline: randomFutureIso({ minDays: 2, maxDays: 12 }),
           priority: 1
         },
         {
           title: "Practice Python for HSBC technical test",
           owner: "student",
           kind: "career",
+          deadline: randomFutureIso({ minDays: 5, maxDays: 20 }),
           priority: 1
         }
       ]
@@ -383,66 +402,81 @@ export async function runDemoSeed({ baseUrl, mappedData }) {
   });
 }
 
-const MOCK_LOAD_DATA_RESPONSE = {
-  mode: "mock",
-  source: "pipeline-mock",
-  requestPayload: {
-    source_url: "",
-    scrape_mode: "http",
-    custom_prompt:
-      "Prioritize by nearest due date, then highest module weighting, then effort.",
-    raw_html:
-      "<html><body><ul><li>Macroeconomics Essay Draft</li><li>Business Strategy Presentation</li><li>Mathematics Revision Quiz</li><li>Sport Science Reflection</li></ul></body></html>"
-  },
-  workflow: {
-    scrape: {
-      source: "inline",
-      mode: "http",
-      assignment_count: 4,
-      assignments: [
-        {
-          title: "Macroeconomics Essay Draft",
-          module: "Economics",
-          due_at: null,
-          module_weight_percent: 40,
-          estimated_hours: 6
-        },
-        {
-          title: "Business Strategy Presentation",
-          module: "Business",
-          due_at: null,
-          module_weight_percent: 50,
-          estimated_hours: 8
-        }
-      ]
+function buildMockLoadDataResponse() {
+  const assignmentOneDue = randomFutureIso({ minDays: 2, maxDays: 10 });
+  const assignmentTwoDue = randomFutureIso({ minDays: 3, maxDays: 14 });
+  return {
+    mode: "mock",
+    source: "pipeline-mock",
+    requestPayload: {
+      source_url: "",
+      scrape_mode: "http",
+      custom_prompt:
+        "Prioritize by nearest due date, then highest module weighting, then effort.",
+      raw_html:
+        "<html><body><ul><li>Macroeconomics Essay Draft</li><li>Business Strategy Presentation</li><li>Mathematics Revision Quiz</li><li>Sport Science Reflection</li></ul></body></html>"
     },
-    llm: {
-      summary: "Mock prioritization output",
-      rated_tasks: [
-        { id: "task-1", title: "Business Strategy Presentation", priority_score: 88 },
-        { id: "task-2", title: "Macroeconomics Essay Draft", priority_score: 75 }
-      ]
-    },
-    persisted_jobs: 4,
-    persisted_tasks: 4
-  }
-};
+    workflow: {
+      scrape: {
+        source: "inline",
+        mode: "http",
+        assignment_count: 4,
+        assignments: [
+          {
+            title: "Macroeconomics Essay Draft",
+            module: "Economics",
+            due_at: assignmentOneDue,
+            module_weight_percent: 40,
+            estimated_hours: 6
+          },
+          {
+            title: "Business Strategy Presentation",
+            module: "Business",
+            due_at: assignmentTwoDue,
+            module_weight_percent: 50,
+            estimated_hours: 8
+          }
+        ]
+      },
+      llm: {
+        summary: "Mock prioritization output",
+        rated_tasks: [
+          { id: "task-1", title: "Business Strategy Presentation", priority_score: 88 },
+          { id: "task-2", title: "Macroeconomics Essay Draft", priority_score: 75 }
+        ]
+      },
+      persisted_jobs: 4,
+      persisted_tasks: 4
+    }
+  };
+}
 
 export async function runLoadData({ baseUrl, rawHtml = "" }) {
   return runWithMockFallback({
     baseUrl,
     path: "/member4/load-data",
     payload: { rawHtml },
-    mockData: MOCK_LOAD_DATA_RESPONSE
+    mockData: buildMockLoadDataResponse()
   });
 }
 
-export async function runLoadJobs({ baseUrl, keywords, location, limit }) {
+export async function runLoadJobs({
+  baseUrl,
+  keywords,
+  location,
+  limit,
+  llmConfig = {}
+}) {
   const data = await postJson(baseUrl, "/member4/load-jobs", {
     keywords,
     location,
-    limit
-  }, { timeoutMs: 120000 });
+    limit,
+    llmConfig: {
+      model: llmConfig.model,
+      apiKey: llmConfig.apiKey,
+      temperature: llmConfig.temperature
+    }
+  }, { timeoutMs: 300000 });
   return {
     mode: String(data?.mode || "live"),
     data

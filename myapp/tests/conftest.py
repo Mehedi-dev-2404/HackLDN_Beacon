@@ -14,8 +14,8 @@ from app.services.workflow.pipeline import WorkflowPipeline
 os.environ.setdefault("APP_ENV", "test")
 os.environ.setdefault("MONGO_URI", "mongodb://localhost:27017")
 os.environ.setdefault("GEMINI_API_KEY", "test-gemini-key")
-os.environ.setdefault("DB_NAME", "aura_test")
-os.environ.setdefault("TASKS_DB_NAME", "aura_tasks_test")
+os.environ.setdefault("DB_NAME", "beacon_test")
+os.environ.setdefault("TASKS_DB_NAME", "beacon_tasks_test")
 os.environ.setdefault("ENABLE_LIVE_LLM", "0")
 
 

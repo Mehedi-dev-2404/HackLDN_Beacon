@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Beacon AI - Alex's Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b6cee",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "accent-green": "#0bda5e",
+                        "accent-purple": "#a855f7",
+                        "surface-dark": "#1c2433",
+                        "border-dark": "#3b4354"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-nav {
+            background-color: rgba(43, 108, 238, 0.15);
+            border-left: 3px solid #2b6cee;
+        }
+        body {
+            background-color: #101622;
+            color: #f1f5f9;
+        }
+    </style>
+</head>
+<body class="font-display">
+<div class="flex min-h-screen bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-slate-200 dark:border-border-dark flex flex-col fixed h-full bg-white dark:bg-background-dark z-20">
+<div class="p-6 flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<span class="text-xl font-bold tracking-tight">Beacon AI</span>
+</div>
+<nav class="flex-1 px-4 space-y-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors" href="code.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors" href="opportunities.html">
+<span class="material-symbols-outlined">work</span>
+<span class="text-sm font-medium">Jobs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors" href="modulenotes.html">
+<span class="material-symbols-outlined">description</span>
+<span class="text-sm font-medium">Module Notes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors" href="funding.html">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-sm font-medium">Funding</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors" href="events.html">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-sm font-medium">Events</span>
+</a>
+<div class="pt-4 pb-2">
+<p class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Account</p>
+</div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg active-nav text-primary bg-primary/10 transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-sm font-medium">Profile</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors" href="code.html">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-border-dark">
+<div class="flex items-center gap-3 p-2">
+<div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-surface-dark flex items-center justify-center overflow-hidden border-2 border-primary">
+<img alt="Alex's profile picture" class="w-full h-full object-cover" data-alt="Portrait of a young computer science student" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_dlyOjKwAZsrQkiyKSFGuKtq7Nr4xQkhhGqnXXxaIX2TdQWv_g2XqvBcmvNQutxbN6uvghISNt5c3L_GKw28EdoIwxCnMFllSFtBCvbrU5EKcwhIJc__tnAqSx1MlriHc2hKONkJrsSjY0xrUSGHJmQY_IgqboRTDJcobg3lVKtX7d-COgjXMN_L2PcRg0fyEYXoiA3vkC0ZEI2299m8-AQsPn2hloAl1BiivfVZFMXUhTw2Xwshw8dgr6YQDK6GQqpYbIt0F9tub"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold truncate">Alex</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 truncate">Year 2 @ KCL</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-64 p-8 overflow-y-auto">
+<!-- Header Section -->
+<header class="mb-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-slate-200 dark:border-border-dark">
+<div class="flex items-center gap-6">
+<div class="relative">
+<div class="w-32 h-32 rounded-2xl bg-slate-300 dark:bg-surface-dark overflow-hidden border-4 border-primary/20">
+<img alt="Alex Profile" class="w-full h-full object-cover" data-alt="Close-up profile photo of Alex" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLWgF2SLoEHvSuiUpEIAjiYUwT5YA9ecrmQdw17LxlGI4mlyyuDGbFBegKlOStL9Pay08YnyRFzHPvD9S9OHNHcxqskIYkmzHXFEY26CmHPTjoNA7vbTRdVZRHx3bLdNzLVu8Z0aiEnQ8lIvcLGuftAxFD689AuwsNEv6-gJmMXgWLqgx1KJocIWilHMkp_AJsegUqUE5Tr4SqhlPS6uG5--gh6MELtS02hfYL9dFvaMq4R9Paa8uHYfuJiGDat8HVDgkDtg83zrkR"/>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-accent-green w-6 h-6 rounded-full border-4 border-background-dark"></div>
+</div>
+<div>
+<h1 class="text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">Alex</h1>
+<div class="flex flex-wrap items-center gap-3 mt-2">
+<span class="flex items-center gap-1 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-sm">school</span>
+                                    King's College London
+                                </span>
+<span class="w-1 h-1 rounded-full bg-slate-400"></span>
+<span class="px-2 py-0.5 rounded bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider">2nd Year CS</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg font-medium text-sm transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">edit</span>
+                            Edit Profile
+                        </button>
+</div>
+</div>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Academic Profile (Left 2 Columns) -->
+<div class="lg:col-span-2 space-y-8">
+<section>
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-xl font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">analytics</span>
+                                Academic Profile
+                            </h2>
+<span class="text-sm font-medium text-accent-green">Current GPA: 3.8 / 4.0</span>
+</div>
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-border-dark overflow-hidden">
+<table class="w-full text-left">
+<thead class="bg-slate-50 dark:bg-background-dark/50 text-slate-500 dark:text-slate-400 text-xs uppercase font-semibold">
+<tr>
+<th class="px-6 py-4">Module Name</th>
+<th class="px-6 py-4">Term</th>
+<th class="px-6 py-4 text-center">Grade</th>
+<th class="px-6 py-4">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-border-dark">
+<tr class="hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
+<td class="px-6 py-4 font-medium">Databases</td>
+<td class="px-6 py-4 text-sm text-slate-500">Y2 S1</td>
+<td class="px-6 py-4 text-center"><span class="px-3 py-1 bg-accent-green/10 text-accent-green rounded-lg font-bold">A</span></td>
+<td class="px-6 py-4 text-sm text-slate-400">Completed</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
+<td class="px-6 py-4 font-medium">Algorithms</td>
+<td class="px-6 py-4 text-sm text-slate-500">Y2 S1</td>
+<td class="px-6 py-4 text-center"><span class="px-3 py-1 bg-accent-green/10 text-accent-green rounded-lg font-bold">A-</span></td>
+<td class="px-6 py-4 text-sm text-slate-400">Completed</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
+<td class="px-6 py-4 font-medium">Operating Systems</td>
+<td class="px-6 py-4 text-sm text-slate-500">Y2 S2</td>
+<td class="px-6 py-4 text-center"><span class="px-3 py-1 bg-primary/10 text-primary rounded-lg font-bold">B+</span></td>
+<td class="px-6 py-4 text-sm text-accent-green">In Progress</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
+<td class="px-6 py-4 font-medium">Software Engineering</td>
+<td class="px-6 py-4 text-sm text-slate-500">Y2 S2</td>
+<td class="px-6 py-4 text-center"><span class="px-3 py-1 bg-primary/10 text-primary rounded-lg font-bold">A</span></td>
+<td class="px-6 py-4 text-sm text-accent-green">In Progress</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Documents Section -->
+<section>
+<h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">folder_open</span>
+                            Documents
+                        </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="p-4 bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl flex items-center justify-between group hover:border-primary transition-all">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-red-500/10 flex items-center justify-center text-red-500">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<div>
+<p class="font-semibold text-sm">Alex_CV_2026.pdf</p>
+<p class="text-xs text-slate-400">Updated: 2 days ago</p>
+</div>
+</div>
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+<div class="p-4 bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl flex items-center justify-between group hover:border-primary transition-all">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div>
+<p class="font-semibold text-sm">KCL_Transcript_Y2.pdf</p>
+<p class="text-xs text-slate-400">Updated: 1 month ago</p>
+</div>
+</div>
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Sidebar (Preferences & Goals) -->
+<div class="space-y-8">
+<!-- Career Goals Section -->
+<section>
+<h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-accent-purple">target</span>
+                            Career Goals
+                        </h2>
+<div class="bg-white dark:bg-surface-dark p-6 rounded-xl border border-slate-200 dark:border-border-dark">
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4 italic">"Looking for high-impact roles in fintech or quantitative research for Summer 2026."</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-accent-purple/10 text-accent-purple text-xs font-semibold rounded-full border border-accent-purple/20">Summer Internships</span>
+<span class="px-3 py-1 bg-accent-purple/10 text-accent-purple text-xs font-semibold rounded-full border border-accent-purple/20">FinTech</span>
+<span class="px-3 py-1 bg-accent-purple/10 text-accent-purple text-xs font-semibold rounded-full border border-accent-purple/20">Python</span>
+<span class="px-3 py-1 bg-accent-purple/10 text-accent-purple text-xs font-semibold rounded-full border border-accent-purple/20">AI/ML</span>
+<span class="px-3 py-1 bg-accent-purple/10 text-accent-purple text-xs font-semibold rounded-full border border-accent-purple/20">London</span>
+</div>
+<button class="w-full mt-6 py-2 border border-dashed border-slate-300 dark:border-slate-600 rounded-lg text-slate-400 text-sm hover:text-primary hover:border-primary transition-all">
+                                + Add Interest Tag
+                            </button>
+</div>
+</section>
+<!-- Beacon AI Settings Section -->
+<section>
+<h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">auto_mode</span>
+                            Beacon Preferences
+                        </h2>
+<div class="bg-white dark:bg-surface-dark p-6 rounded-xl border border-slate-200 dark:border-border-dark space-y-6">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-sm font-semibold">Focus on Deadlines</span>
+<span class="text-xs text-slate-400">Prioritize academic schedule</span>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-200 dark:bg-background-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-sm font-semibold">Networking Surface</span>
+<span class="text-xs text-slate-400">Events &amp; recruiter reachout</span>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-200 dark:bg-background-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-sm font-semibold">Financial Support</span>
+<span class="text-xs text-slate-400">Monitor funding &amp; grants</span>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-200 dark:bg-background-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</div>
+<div class="pt-4 border-t border-slate-200 dark:border-border-dark">
+<label class="block text-xs font-bold text-slate-400 uppercase mb-3">AI Intervention Level</label>
+<input class="w-full h-2 bg-slate-200 dark:bg-background-dark rounded-lg appearance-none cursor-pointer accent-primary" max="100" min="0" type="range" value="75"/>
+<div class="flex justify-between mt-2 text-[10px] text-slate-500 font-bold uppercase">
+<span>Passive</span>
+<span>Balanced</span>
+<span>Active</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Footer -->
+<footer class="mt-16 pb-8 text-center text-slate-500 dark:text-slate-400 text-sm">
+<div class="flex items-center justify-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-lg">auto_awesome</span>
+<span class="font-semibold tracking-tight text-slate-900 dark:text-slate-100">Beacon AI Ecosystem</span>
+</div>
+<p>© 2026 Beacon AI Dashboard. Built for King's College London Engineering.</p>
+</footer>
+</main>
+</div>
+</body></html>

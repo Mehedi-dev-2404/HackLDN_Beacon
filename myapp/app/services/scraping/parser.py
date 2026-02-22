@@ -1,4 +1,6 @@
 import re
+from datetime import UTC, datetime, timedelta
+from random import randint
 
 
 def _guess_module(title: str) -> str:
@@ -12,6 +14,13 @@ def _guess_module(title: str) -> str:
     if "sport" in lowered:
         return "Sport"
     return "General"
+
+
+def _random_due_at_iso(min_days: int = 1, max_days: int = 30) -> str:
+    now = datetime.now(UTC)
+    due = now + timedelta(days=randint(min_days, max_days))
+    due = due.replace(hour=16, minute=randint(0, 45), second=0, microsecond=0)
+    return due.isoformat().replace("+00:00", "Z")
 
 
 
@@ -43,7 +52,10 @@ def parse_assignments(raw_html: str) -> list[dict]:
             {
                 "title": title,
                 "module": _guess_module(title),
-                "due_at": None,
+                "due_at": _random_due_at_iso(
+                    min_days=max(1, index),
+                    max_days=max(8, index + 14),
+                ),
                 "module_weight_percent": max(10, 50 - index * 3),
                 "estimated_hours": min(10, 2 + index),
                 "notes": "Parsed from page content",
@@ -57,7 +69,7 @@ def parse_assignments(raw_html: str) -> list[dict]:
         {
             "title": "Mock Coursework Task",
             "module": "General",
-            "due_at": None,
+            "due_at": _random_due_at_iso(min_days=2, max_days=14),
             "module_weight_percent": 25,
             "estimated_hours": 3,
             "notes": "Fallback assignment",

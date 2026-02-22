@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "myapp"
 version = "0.1.0"
-description = "Aura FastAPI backend with layered architecture"
+description = "Beacon FastAPI backend with layered architecture"
 requires-python = ">=3.11"
 dependencies = [
   "fastapi>=0.110",
@@ -14,6 +14,7 @@ dependencies = [
   "python-dotenv>=1.0",
   "pymongo>=4.6",
   "google-genai>=0.3",
+  "pypdf>=4.2",
   "elevenlabs>=0.2.27",
   "playwright>=1.44"
 ]

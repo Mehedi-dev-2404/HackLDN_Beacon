@@ -57,4 +57,4 @@ def delete_task(task_id: str):
 # Health check
 @app.get("/")
 def root():
-    return {"status": "Aura backend running!"}
+    return {"status": "Beacon backend running!"}

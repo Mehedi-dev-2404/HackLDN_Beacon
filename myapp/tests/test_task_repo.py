@@ -45,7 +45,7 @@ def test_task_repo_upsert_and_list_are_deterministic() -> None:
     fake_collection = _FakeCollection()
     repo = TaskRepository(
         mongo_uri="mongodb://localhost:27017",
-        db_name="aura_tasks_test",
+        db_name="beacon_tasks_test",
         collection=fake_collection,
     )
 
@@ -80,3 +80,4 @@ def test_task_repo_upsert_and_list_are_deterministic() -> None:
     assert len(by_id) == 2
     assert by_id["task-1"].title == "Math Homework Updated"
     assert by_id["task-1"].priority == 95
+    assert by_id["task-1"].completed is False

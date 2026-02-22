@@ -10,7 +10,7 @@ def test_ui_shell_loads_with_page_switcher() -> None:
     response = client.get("/api/v1/health/ui")
     assert response.status_code == 200
     text = response.text
-    assert "Aura Page Switcher" in text
+    assert "Beacon Page Switcher" in text
     assert "data-page='dashboard'" in text
     assert "data-page='workflow'" in text
 
@@ -19,7 +19,7 @@ def test_ui_shell_loads_with_page_switcher() -> None:
 def test_dashboard_page_uses_embedded_html_file() -> None:
     response = client.get("/api/v1/health/ui/page/dashboard")
     assert response.status_code == 200
-    assert "Aura" in response.text
+    assert "Beacon" in response.text
 
 
 

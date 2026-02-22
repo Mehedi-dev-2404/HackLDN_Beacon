@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Beacon | Module Notes</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b6cee",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-6 py-3 bg-white/50 dark:bg-background-dark/50 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">Beacon</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="code.html">Dashboard</a>
+<a class="text-primary text-sm font-bold border-b-2 border-primary py-1" href="modulenotes.html">Modules</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="schedule.html">Study Plan</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="events.html">Library</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-4 items-center">
+<div class="hidden sm:flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-primary/10 hover:text-primary transition-all">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-primary/10 hover:text-primary transition-all">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+</div>
+<div class="bg-slate-200 dark:bg-slate-700 aspect-square rounded-full size-10 overflow-hidden border-2 border-primary/20">
+<img class="w-full h-full object-cover" data-alt="Student profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuI2h3CkVBkyTV5BLAC8WTnILM8s0JdqnBYR66m89PlbG7O73000FCDblDQMpapl0y3jnqJl52v8G65FFoemp8Puf1T4Bn69M9uEN2t-YP2A3LrKcG55Gfm29aJhLiccy9dChAW9Djx0g-vcy0AjKs4UlFwXpMmDhFA-FWi65XYop72_1OW7lTUWyUGZBL2kZoGu51hfogVQD5eVZXKUtyre-qkLFg9F_KtuAEi6rZdj9gmNrtoOkVxFBRT6Zlju4-wCgVysCcJeT1"/>
+</div>
+</div>
+</header>
+<main class="flex-1 max-w-7xl mx-auto w-full px-6 py-8">
+<!-- Breadcrumbs & Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+<div class="space-y-2">
+<nav class="flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">
+<a class="hover:text-primary transition-colors" href="code.html">Dashboard</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-slate-900 dark:text-slate-200">Module Notes</span>
+</nav>
+<h1 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight">Module Notes</h1>
+<p class="text-slate-500 dark:text-slate-400 text-lg">Central hub for your course materials and AI-powered insights.</p>
+</div>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-lg font-bold text-sm shadow-lg shadow-primary/20 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Add New Module</span>
+</button>
+</div>
+<!-- Search Bar Section -->
+<div class="relative w-full max-w-3xl mb-12">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400">search</span>
+</div>
+<input class="block w-full pl-12 pr-4 py-4 bg-white dark:bg-slate-800 border-none rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-primary shadow-xl shadow-slate-200/50 dark:shadow-none" placeholder="Search topics, notes, or AI summaries..." type="text"/>
+</div>
+<!-- Quick Access / Recent Resources -->
+<section class="mb-14">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">schedule</span>
+                            Recent Resources
+                        </h2>
+<button class="text-primary text-sm font-bold hover:underline">View All</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Resource Card 1 -->
+<div class="group flex items-center gap-4 p-4 bg-white dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-xl hover:border-primary/50 transition-all cursor-pointer">
+<div class="size-12 rounded-lg bg-red-100 dark:bg-red-500/10 flex items-center justify-center text-red-600 dark:text-red-400">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div class="overflow-hidden">
+<p class="font-bold text-sm truncate group-hover:text-primary transition-colors">Lecture_08_Normalization.pdf</p>
+<p class="text-xs text-slate-500 dark:text-slate-500 italic">Added 2h ago</p>
+</div>
+</div>
+<!-- Resource Card 2 -->
+<div class="group flex items-center gap-4 p-4 bg-white dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-xl hover:border-primary/50 transition-all cursor-pointer">
+<div class="size-12 rounded-lg bg-blue-100 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined">video_library</span>
+</div>
+<div class="overflow-hidden">
+<p class="font-bold text-sm truncate group-hover:text-primary transition-colors">Graph_Theory_Recorded.mp4</p>
+<p class="text-xs text-slate-500 dark:text-slate-500 italic">Added 5h ago</p>
+</div>
+</div>
+<!-- Resource Card 3 -->
+<div class="group flex items-center gap-4 p-4 bg-white dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-xl hover:border-primary/50 transition-all cursor-pointer">
+<div class="size-12 rounded-lg bg-emerald-100 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+<span class="material-symbols-outlined">contract_edit</span>
+</div>
+<div class="overflow-hidden">
+<p class="font-bold text-sm truncate group-hover:text-primary transition-colors">AI_Ethics_Summary_V2.doc</p>
+<p class="text-xs text-slate-500 dark:text-slate-500 italic">Added Yesterday</p>
+</div>
+</div>
+<!-- Resource Card 4 -->
+<div class="group flex items-center gap-4 p-4 bg-white dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-xl hover:border-primary/50 transition-all cursor-pointer">
+<div class="size-12 rounded-lg bg-amber-100 dark:bg-amber-500/10 flex items-center justify-center text-amber-600 dark:text-amber-400">
+<span class="material-symbols-outlined">slideshow</span>
+</div>
+<div class="overflow-hidden">
+<p class="font-bold text-sm truncate group-hover:text-primary transition-colors">Week_4_System_Design.pptx</p>
+<p class="text-xs text-slate-500 dark:text-slate-500 italic">Added 2d ago</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Module Cards Grid -->
+<section>
+<div class="flex items-center justify-between mb-8">
+<h2 class="text-2xl font-black text-slate-900 dark:text-white">Active Modules</h2>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-400"><span class="material-symbols-outlined">grid_view</span></button>
+<button class="p-2 rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><span class="material-symbols-outlined">list</span></button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+<!-- Module Card: Databases -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-primary/30 transition-all group flex flex-col">
+<div class="p-6 pb-4 flex justify-between items-start border-b border-slate-100 dark:border-slate-800">
+<div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Databases (CS402)</h3>
+<p class="text-sm text-slate-500">Advanced SQL &amp; NoSQL Structures</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary">database</span>
+</div>
+<div class="p-6 flex-1 space-y-6">
+<!-- AI Summary -->
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">bolt</span> Recent AI Summary
+                                    </p>
+<div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border-l-4 border-primary">
+<p class="text-sm font-semibold mb-1">SQL Normalization (1NF to BCNF)</p>
+<p class="text-xs text-slate-500 line-clamp-2">Key concepts include functional dependencies, transitive dependencies, and atomicity in relational tables...</p>
+</div>
+</div>
+<!-- Progress -->
+<div>
+<div class="flex justify-between items-end mb-2">
+<p class="text-xs font-bold uppercase tracking-widest text-slate-400">AI Study Plan</p>
+<p class="text-sm font-bold text-primary">85%</p>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 85%"></div>
+</div>
+</div>
+<!-- Deadlines -->
+<div class="bg-primary/5 p-3 rounded-lg flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]">event</span>
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400">Next Deadline</p>
+<p class="text-sm font-bold">Project Part 1: Schema Design <span class="text-slate-400 ml-2 font-normal">• Fri, 18:00</span></p>
+</div>
+</div>
+</div>
+<div class="p-4 bg-slate-50 dark:bg-slate-800/30 flex gap-2">
+<button class="flex-1 py-2 px-4 rounded-lg bg-primary text-white text-sm font-bold hover:brightness-110 transition-all">Open Module</button>
+<button class="py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 transition-all"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</div>
+</div>
+<!-- Module Card: Algorithms -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-primary/30 transition-all group flex flex-col">
+<div class="p-6 pb-4 flex justify-between items-start border-b border-slate-100 dark:border-slate-800">
+<div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Algorithms &amp; Complexity</h3>
+<p class="text-sm text-slate-500">Design and Analysis of Algorithms</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary">hub</span>
+</div>
+<div class="p-6 flex-1 space-y-6">
+<!-- AI Summary -->
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">bolt</span> Recent AI Summary
+                                    </p>
+<div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border-l-4 border-slate-300 dark:border-slate-600">
+<p class="text-sm font-semibold mb-1">Big O Notation &amp; Time Complexity</p>
+<p class="text-xs text-slate-500 line-clamp-2">Understanding growth rates, asymptotic analysis, and common complexity classes (O(n), O(log n)...</p>
+</div>
+</div>
+<!-- Progress -->
+<div>
+<div class="flex justify-between items-end mb-2">
+<p class="text-xs font-bold uppercase tracking-widest text-slate-400">AI Study Plan</p>
+<p class="text-sm font-bold text-primary">40%</p>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 40%"></div>
+</div>
+</div>
+<!-- Deadlines -->
+<div class="bg-red-500/5 p-3 rounded-lg flex items-center gap-3 border border-red-500/20">
+<span class="material-symbols-outlined text-red-500 text-[20px]">warning</span>
+<div>
+<p class="text-xs text-red-500 font-bold">Urgent Deadline</p>
+<p class="text-sm font-bold">Mid-term Quiz: Sorting Alg <span class="text-slate-400 ml-2 font-normal">• Tomorrow</span></p>
+</div>
+</div>
+</div>
+<div class="p-4 bg-slate-50 dark:bg-slate-800/30 flex gap-2">
+<button class="flex-1 py-2 px-4 rounded-lg bg-primary text-white text-sm font-bold hover:brightness-110 transition-all">Open Module</button>
+<button class="py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 transition-all"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</div>
+</div>
+<!-- Module Card: AI Ethics -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-primary/30 transition-all group flex flex-col">
+<div class="p-6 pb-4 flex justify-between items-start border-b border-slate-100 dark:border-slate-800">
+<div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">AI Ethics &amp; Policy</h3>
+<p class="text-sm text-slate-500">Legal and Moral Frameworks</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary">balance</span>
+</div>
+<div class="p-6 flex-1 space-y-6">
+<!-- AI Summary -->
+<div class="opacity-60 flex flex-col items-center justify-center py-6 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl">
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-600 text-4xl mb-2">upload_file</span>
+<p class="text-sm font-medium text-slate-400">Upload slides to start AI summary</p>
+<button class="mt-3 text-primary text-xs font-bold hover:underline">Generate from Reading List</button>
+</div>
+<!-- Progress -->
+<div>
+<div class="flex justify-between items-end mb-2">
+<p class="text-xs font-bold uppercase tracking-widest text-slate-400">AI Study Plan</p>
+<p class="text-sm font-bold text-primary">12%</p>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 12%"></div>
+</div>
+</div>
+<!-- Deadlines -->
+<div class="bg-slate-100 dark:bg-slate-800/50 p-3 rounded-lg flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400 text-[20px]">event</span>
+<div>
+<p class="text-xs text-slate-500">Upcoming Task</p>
+<p class="text-sm font-bold text-slate-600 dark:text-slate-300">Case Study: Bias in LLMs <span class="text-slate-400 ml-2 font-normal">• In 10 days</span></p>
+</div>
+</div>
+</div>
+<div class="p-4 bg-slate-50 dark:bg-slate-800/30 flex gap-2">
+<button class="flex-1 py-2 px-4 rounded-lg bg-primary text-white text-sm font-bold hover:brightness-110 transition-all">Open Module</button>
+<button class="py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 transition-all"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</div>
+</div>
+<!-- Module Card: Software Engineering -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-primary/30 transition-all group flex flex-col">
+<div class="p-6 pb-4 flex justify-between items-start border-b border-slate-100 dark:border-slate-800">
+<div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Software Engineering</h3>
+<p class="text-sm text-slate-500">Agile Methods and DevOps</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary">developer_mode_tv</span>
+</div>
+<div class="p-6 flex-1 space-y-6">
+<!-- AI Summary -->
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">bolt</span> Recent AI Summary
+                                    </p>
+<div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border-l-4 border-primary">
+<p class="text-sm font-semibold mb-1">CI/CD Pipelines &amp; Jenkins</p>
+<p class="text-xs text-slate-500 line-clamp-2">Overview of automated testing, deployment strategies (blue-green, canary), and integration tools...</p>
+</div>
+</div>
+<!-- Progress -->
+<div>
+<div class="flex justify-between items-end mb-2">
+<p class="text-xs font-bold uppercase tracking-widest text-slate-400">AI Study Plan</p>
+<p class="text-sm font-bold text-primary">62%</p>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 62%"></div>
+</div>
+</div>
+<!-- Deadlines -->
+<div class="bg-primary/5 p-3 rounded-lg flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]">event</span>
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400">Next Deadline</p>
+<p class="text-sm font-bold">Group Presentation: Agile <span class="text-slate-400 ml-2 font-normal">• Next Monday</span></p>
+</div>
+</div>
+</div>
+<div class="p-4 bg-slate-50 dark:bg-slate-800/30 flex gap-2">
+<button class="flex-1 py-2 px-4 rounded-lg bg-primary text-white text-sm font-bold hover:brightness-110 transition-all">Open Module</button>
+<button class="py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 transition-all"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating AI Assistant Button -->
+<button class="fixed bottom-8 right-8 size-14 rounded-full bg-primary text-white shadow-2xl shadow-primary/50 flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40">
+<span class="material-symbols-outlined text-3xl">smart_toy</span>
+</button>
+<!-- Bottom Footer (Minimal) -->
+<footer class="mt-20 border-t border-slate-200 dark:border-slate-800 py-8 px-6 text-center">
+<p class="text-slate-500 text-sm">© 2024 Beacon Student AI. Elevate your learning experience.</p>
+</footer>
+</div>
+</div>
+</body></html>

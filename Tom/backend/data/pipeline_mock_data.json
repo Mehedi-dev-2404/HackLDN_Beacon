@@ -1,0 +1,6 @@
+{
+  "source_url": "",
+  "scrape_mode": "http",
+  "custom_prompt": "Prioritize by nearest due date, then highest module weighting, then effort.",
+  "raw_html": "<html><body><ul><li>Macroeconomics Essay Draft</li><li>Business Strategy Presentation</li><li>Mathematics Revision Quiz</li><li>Sport Science Reflection</li><li>Data Analysis Lab Report</li></ul></body></html>"
+}
