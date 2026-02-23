@@ -1,24 +1,28 @@
-// useCountUp - Smooth animated counter for numbers
 import { useState, useEffect } from 'react';
 
 export function useCountUp(target, duration = 1000) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (!target) return;
+    if (target === 0) {
+      setCount(0);
+      return;
+    }
 
     const steps = 60;
-    const increment = target / steps;
     const stepDuration = duration / steps;
+    const increment = target / steps;
     let current = 0;
+    let step = 0;
 
     const interval = setInterval(() => {
+      step++;
       current += increment;
-      if (current >= target) {
-        setCount(target);
+      if (step >= steps) {
+        setCount(Math.round(target));
         clearInterval(interval);
       } else {
-        setCount(Math.floor(current));
+        setCount(Math.round(current));
       }
     }, stepDuration);
 
@@ -28,17 +32,16 @@ export function useCountUp(target, duration = 1000) {
   return count;
 }
 
-// useSystemStatus - Check backend health
 export function useSystemStatus() {
-  const [status, setStatus] = useState('online'); // 'online' | 'degraded'
+  const [status, setStatus] = useState('online');
 
   useEffect(() => {
-    const checkHealth = async () => {
+    const checkStatus = async () => {
       try {
-        const response = await fetch('/api/socratic', {
+        const response = await fetch('http://localhost:8000/socratic', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ topic: 'test', previous_answer: null }),
+          body: JSON.stringify({ topic: 'test', previousAnswer: '' })
         });
         setStatus(response.ok ? 'online' : 'degraded');
       } catch {
@@ -46,8 +49,8 @@ export function useSystemStatus() {
       }
     };
 
-    checkHealth();
-    const interval = setInterval(checkHealth, 30000); // Check every 30s
+    checkStatus();
+    const interval = setInterval(checkStatus, 30000);
     return () => clearInterval(interval);
   }, []);
 

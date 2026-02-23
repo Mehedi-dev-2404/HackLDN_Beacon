@@ -65,16 +65,37 @@ export function speakText(text) {
     
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = 0.9;
-    utterance.pitch = 1;
+    utterance.pitch = 1.2; // Slightly higher pitch for feminine tone
     utterance.volume = 0.8;
     
-    // Try to get a British voice
+    // Get all available voices
     const voices = window.speechSynthesis.getVoices();
-    const britishVoice = voices.find(v => 
-      v.lang.includes('en-GB') || v.name.includes('British')
+    
+    // Female voice indicators
+    const femaleIndicators = ['woman', 'female', 'woman1', 'woman2', 'woman3', 'Victoria', 'Samantha', 'Moira', 'Fiona', 'Zira', 'Karen', 'Jill', 'Zira'];
+    
+    // First, try to find a British female voice
+    let selectedVoice = voices.find(v => 
+      (v.lang.includes('en-GB') || v.name.includes('British')) &&
+      femaleIndicators.some(indicator => v.name.toLowerCase().includes(indicator.toLowerCase()))
     );
-    if (britishVoice) {
-      utterance.voice = britishVoice;
+    
+    // If no British female voice, try any female voice
+    if (!selectedVoice) {
+      selectedVoice = voices.find(v => 
+        femaleIndicators.some(indicator => v.name.toLowerCase().includes(indicator.toLowerCase()))
+      );
+    }
+    
+    // Fallback to British voice (even if male)
+    if (!selectedVoice) {
+      selectedVoice = voices.find(v => 
+        v.lang.includes('en-GB') || v.name.includes('British')
+      );
+    }
+    
+    if (selectedVoice) {
+      utterance.voice = selectedVoice;
     }
     
     window.speechSynthesis.speak(utterance);
@@ -164,24 +185,28 @@ export function generatePriorities(analysis) {
   return priorities.slice(0, 3);
 }
 
-// Mock data generator for demo mode
+// Mock analysis for when backend is unavailable
 function generateMockAnalysis() {
   return {
-    technical_skills: ['Python', 'JavaScript', 'React'],
-    tools_technologies: ['Git', 'Docker', 'PostgreSQL'],
-    cognitive_skills: ['Problem-solving', 'System Design', 'Critical Thinking'],
-    behavioural_traits: ['Communication', 'Teamwork', 'Leadership'],
-    experience_level: 'Graduate / Entry-level',
-    isMock: true
+    isMock: true,
+    technical_skills: ['Python', 'JavaScript', 'SQL', 'React'],
+    tools_technologies: ['Git', 'Docker', 'PostgreSQL', 'Node.js'],
+    cognitive_skills: ['Problem-solving', 'Algorithm design', 'System thinking'],
+    behavioural_traits: ['Team collaboration', 'Communication', 'Adaptability'],
+    experience_level: 'Graduate Software Engineer',
+    job_description_analysis: 'Mock analysis - backend unavailable',
   };
 }
 
-// Fallback API call with automatic mock mode
+// Fallback function that tries real backend first, then falls back to mock
 export async function analyzeCareerWithFallback(jobText) {
   try {
-    return await analyzeCareer(jobText);
+    // Try the real backend first
+    const result = await analyzeCareer(jobText);
+    return { ...result, isMock: false };
   } catch (err) {
-    console.warn('Backend unavailable, using mock data:', err.message);
+    console.warn('Backend unavailable, using mock mode:', err.message);
+    // Fall back to mock analysis
     return generateMockAnalysis();
   }
 }
