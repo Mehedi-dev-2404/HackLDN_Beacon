@@ -44,3 +44,24 @@ Thumbs.db
 # ==========================
 *.sqlite3
 *.db
+
+# ==========================
+# Node/build artifacts
+# ==========================
+node_modules/
+dist/
+coverage/
+
+# ==========================
+# Docker / Terraform
+# ==========================
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.*
+*.tfvars
+
+# ==========================
+# Local app artifacts
+# ==========================
+apps/web/runtime-config.local.js

@@ -1,0 +1,26 @@
+name: infra
+
+on:
+  push:
+    paths:
+      - "infra/terraform/**"
+      - ".github/workflows/infra.yml"
+  pull_request:
+    paths:
+      - "infra/terraform/**"
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra/terraform
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - run: terraform fmt -check
+      - run: terraform init -backend=false
+      - run: terraform validate
+      - run: terraform plan -input=false -lock=false -var="root_domain_name=${TF_ROOT_DOMAIN_NAME}"
+        env:
+          TF_ROOT_DOMAIN_NAME: ${{ secrets.TF_ROOT_DOMAIN_NAME }}

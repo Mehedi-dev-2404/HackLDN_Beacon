@@ -1,0 +1,43 @@
+services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    environment:
+      APP_ENV: development
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-local-dev-key}
+      ELEVEN_LABS_API_KEY: ${ELEVEN_LABS_API_KEY:-local-dev-key}
+      MONGO_URI: mongodb://mongo:27017
+      DB_NAME: beacon_jobs
+      TASKS_DB_NAME: beacon_tasks
+      DOCS_DB_NAME: beacon_docs
+      DEFAULT_USER_ID: demo-user
+      SCHEDULE_TIMEZONE: Europe/London
+      MAX_UPLOAD_MB: 20
+      ALLOWED_ORIGINS: http://localhost:3000
+      FRONTEND_BASE_URL: http://localhost:3000
+      SERPAPI_KEY: ${SERPAPI_KEY:-local-dev-key}
+      ENABLE_LIVE_LLM: "false"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongo
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.web
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+
+volumes:
+  mongo_data:

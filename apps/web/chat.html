@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Socratic Chat — Beacon</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "primary": "#2b6cee",
+                    "background-light": "#f6f6f8",
+                    "background-dark": "#101622",
+                },
+                fontFamily: { "display": ["Inter", "sans-serif"] }
+            }
+        }
+    }
+</script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen font-display">
+<div class="max-w-5xl mx-auto px-6 py-8">
+  <header class="flex items-center justify-between mb-6">
+    <div class="flex items-center gap-4">
+      <div class="bg-primary p-2 rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
+        <span class="material-symbols-outlined text-white">auto_awesome</span>
+      </div>
+      <div>
+        <h1 class="text-lg font-bold">Beacon</h1>
+        <p class="text-xs text-slate-500">Socratic Chat — Databases</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-primary font-bold text-sm">A</div>
+      <a class="text-xs text-primary hover:underline" href="profile.html">View Profile</a>
+    </div>
+  </header>
+
+  <main>
+    <div id="messages" class="bg-white dark:bg-slate-900/40 rounded-xl p-6 h-[60vh] overflow-y-auto shadow-sm" aria-live="polite"></div>
+
+    <div class="mt-4 flex gap-3">
+      <input id="input" class="flex-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-transparent px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Type your question about databases..." />
+      <button id="send" class="bg-primary text-white px-4 py-2 rounded-lg">Send</button>
+    </div>
+  </main>
+
+  <footer class="mt-8 text-xs text-slate-500">© 2026 Beacon AI</footer>
+</div>
+
+<script src="runtime-config.js"></script>
+<script>
+  const API_BASE = (function resolveApiBase() {
+    const raw = String(
+      (window.BEACON_CONFIG && window.BEACON_CONFIG.API_BASE_URL) || `${window.location.origin}/api/v1`
+    ).trim();
+    return raw.endsWith("/") ? raw.slice(0, -1) : raw;
+  })();
+  const messagesEl = document.getElementById('messages');
+  const inputEl = document.getElementById('input');
+  const sendBtn = document.getElementById('send');
+  const conversationId = `conv-${Date.now()}`;
+
+  function appendMsg(text, who='bot'){
+    const d = document.createElement('div');
+    d.className = 'mb-3 p-3 rounded-lg max-w-[80%] ' + (who==='user' ? 'ml-auto bg-primary/10 text-slate-900' : 'bg-slate-100 dark:bg-slate-800');
+    d.textContent = text;
+    messagesEl.appendChild(d);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  async function sendMessage() {
+    const val = inputEl.value.trim();
+    if (!val) return;
+    appendMsg(val, 'user');
+    inputEl.value = '';
+    try {
+      const response = await fetch(`${API_BASE}/assistant/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          conversation_id: conversationId,
+          message: val,
+          context_page: 'chat',
+        }),
+      });
+      const payload = await response.json();
+      if (!response.ok) {
+        throw new Error(typeof payload === 'object' ? JSON.stringify(payload) : String(payload));
+      }
+      const reply = payload.reply || 'No response received.';
+      appendMsg(reply, 'bot');
+      if ('speechSynthesis' in window) {
+        const u = new SpeechSynthesisUtterance(reply);
+        u.lang = 'en-GB';
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(u);
+      }
+    } catch (error) {
+      appendMsg(`Error: ${error.message}`, 'bot');
+    }
+  }
+
+  // Initial prompt
+  appendMsg("Hi — let's discuss databases. Try asking about keys, normalization, indexes, or queries.");
+
+  sendBtn.addEventListener('click', function(){
+    sendMessage();
+  });
+
+  inputEl.addEventListener('keydown', function(e){ if (e.key === 'Enter') sendMessage(); });
+
+  // If arrived via Beacon interaction, focus composer
+  document.addEventListener('DOMContentLoaded', function(){ inputEl.focus(); });
+</script>
+</body>
+</html>

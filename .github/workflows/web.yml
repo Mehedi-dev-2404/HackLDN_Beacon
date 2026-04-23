@@ -1,0 +1,41 @@
+name: web
+
+on:
+  push:
+    paths:
+      - "apps/web/**"
+      - "scripts/render-web-config.sh"
+      - ".github/workflows/web.yml"
+  pull_request:
+    paths:
+      - "apps/web/**"
+      - "scripts/render-web-config.sh"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: test -f apps/web/index.html
+      - run: test -f apps/web/runtime-config.js
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - run: bash scripts/render-web-config.sh "$API_BASE_URL"
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+      - run: aws s3 sync apps/web "s3://$FRONTEND_BUCKET" --delete
+        env:
+          FRONTEND_BUCKET: ${{ secrets.FRONTEND_BUCKET }}
+      - run: aws cloudfront create-invalidation --distribution-id "$CLOUDFRONT_DISTRIBUTION_ID" --paths "/*"
+        env:
+          CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}

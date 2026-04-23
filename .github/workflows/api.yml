@@ -1,0 +1,57 @@
+name: api
+
+on:
+  push:
+    paths:
+      - "apps/api/**"
+      - "docker/Dockerfile.api"
+      - ".github/workflows/api.yml"
+  pull_request:
+    paths:
+      - "apps/api/**"
+      - "docker/Dockerfile.api"
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e ".[dev]"
+      - run: pytest
+      - run: docker build -f ../../docker/Dockerfile.api ../..
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: test-and-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - uses: aws-actions/amazon-ecr-login@v2
+      - run: docker build -t "$ECR_REPOSITORY:$GITHUB_SHA" -f docker/Dockerfile.api .
+        env:
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+      - run: docker tag "$ECR_REPOSITORY:$GITHUB_SHA" "$ECR_REPOSITORY:latest"
+        env:
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+      - run: docker push "$ECR_REPOSITORY:$GITHUB_SHA"
+        env:
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+      - run: docker push "$ECR_REPOSITORY:latest"
+        env:
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+      - run: aws ecs update-service --cluster "$ECS_CLUSTER" --service "$ECS_SERVICE" --force-new-deployment
+        env:
+          ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
+          ECS_SERVICE: ${{ secrets.ECS_SERVICE }}
